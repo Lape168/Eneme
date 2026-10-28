@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{aff8fd8b-a7b6-4cc9-ad22-3d16dce3e11b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Map">
+      <UniqueIdentifier>{cb435e48-bab4-4c14-8dca-c152aa38a0a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Camera">
+      <UniqueIdentifier>{d31f0a59-4199-4877-bba6-cb87a6eccc64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{41ecc89c-b39a-4ae1-85aa-273e640ce01c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\BackGround">
+      <UniqueIdentifier>{00fa46a9-ff9a-4412-a4a9-46d2e56001b3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map\Block.cpp">
+      <Filter>Source\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map\MapChip.cpp">
+      <Filter>Source\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map\MapManager.cpp">
+      <Filter>Source\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera\Camera.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\Input.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BackGround\BackGround.cpp">
+      <Filter>Source\BackGround</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Map\Block.h">
+      <Filter>Source\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Map\MapChip.h">
+      <Filter>Source\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Map\MapManager.h">
+      <Filter>Source\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Map\MapParameter.h">
+      <Filter>Source\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera\Camera.h">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Input.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BackGround\BackGround.h">
+      <Filter>Source\BackGround</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
