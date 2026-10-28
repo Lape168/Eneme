@@ -12,7 +12,7 @@
 void InitPlayScene()
 {
 	// プレイヤー初期化
-//	InitPlayer();
+	InitPlayer();
 
 	// マップ初期化
 	InitMap();
@@ -24,7 +24,7 @@ void InitPlayScene()
 void LoadPlayScene()
 {
 	// プレイヤーロード
-//	LoadPlayer();
+	LoadPlayer();
 
 	// マップをロード
 	LoadMap();
@@ -33,7 +33,7 @@ void LoadPlayScene()
 void StartPlayScene()
 {
 	// プレイヤー開始
-//	StartPlayer();
+	StartPlayer();
 
 	// マップを開始
 	StartMap();
@@ -42,7 +42,7 @@ void StartPlayScene()
 void StepPlayScene()
 {
 	// プレイヤーステップ
-//	StepPlayer();
+	StepPlayer();
 
 	// カメラステップ
 	StepCamera();
@@ -52,7 +52,7 @@ void UpdatePlayScene()
 {
 	// マップ更新
 	// プレイヤー更新
-//	UpdatePlayer();
+	UpdatePlayer();
 	
 	// 当たり判定
 //	CheckCollision();
@@ -64,7 +64,7 @@ void DrawPlayScene()
 	DrawMap();
 
 	// プレイヤー描画
-//	DrawPlayer();
+	DrawPlayer();
 
 	// カメラ描画
 	DrawCamera();
@@ -76,5 +76,5 @@ void FinPlayScene()
 	FinMap();
 
 	// プレイヤー終了
-//	FinPlayer();
+	FinPlayer();
 }
