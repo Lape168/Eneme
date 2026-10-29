@@ -37,6 +37,9 @@
     <Filter Include="Source\GameSetting">
       <UniqueIdentifier>{cc2fff8a-8bd5-4ca1-bd51-5f8a342bbde5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Bullet">
+      <UniqueIdentifier>{714a7421-780c-4f90-bcbb-ef5ccdda75e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -77,6 +80,12 @@
     </ClCompile>
     <ClCompile Include="Source\Player\Player.cpp">
       <Filter>Source\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bullet\BulletManager.cpp">
+      <Filter>Source\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bullet\StraightBullet.cpp">
+      <Filter>Source\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +130,15 @@
     </ClInclude>
     <ClInclude Include="Source\GameSetting\GameSetting.h">
       <Filter>Source\GameSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bullet\StraightBullet.h">
+      <Filter>Source\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bullet\BulletManager.h">
+      <Filter>Source\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bullet\BulletParameter.h">
+      <Filter>Source\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

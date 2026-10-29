@@ -8,6 +8,7 @@
 
 struct PlayerData
 {
+	int handle;									// ‰æ‘œ
 	bool active;								// ¶‘¶ƒtƒ‰ƒO
 	bool isTurn;								// ¶‚ğŒü‚¢‚Ä‚¢‚é‚©
 	bool isAir;									// ‹ó’†‚É‚¢‚é‚©

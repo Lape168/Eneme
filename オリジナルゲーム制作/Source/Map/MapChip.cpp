@@ -1,6 +1,6 @@
 #include "MapChip.h"
 #include "DxLib.h"
-//#include "../GameSetting/GameSetting.h"
+#include "../GameSetting/GameSetting.h"
 #include "MapParameter.h"
 #include "Block.h"
 
