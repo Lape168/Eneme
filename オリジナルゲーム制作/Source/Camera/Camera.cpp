@@ -15,13 +15,13 @@ void InitCamera()
 void StepCamera()
 {
 	// プレイヤー取得
-	PlayerData player = GetPlayer();
+	PlayerData* player = GetPlayer();
 
 	// プレイヤーがスクロールラインを超えたらカメラ移動する
-	if (player.posX >= CAMERA_SCROLL_START_X)
+	if (player->posX >= CAMERA_SCROLL_START_X)
 	{
 		// ラインを超えている分だけ移動する
-		g_CameraData.posX = player.posX - CAMERA_SCROLL_START_X;
+//		g_CameraData.posX = player->posX - CAMERA_SCROLL_START_X;
 	}
 	else
 	{

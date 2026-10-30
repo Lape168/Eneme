@@ -1,5 +1,6 @@
 #pragma once
 #include "../Map/MapParameter.h"
+#include "../Collision/Collision.h"
 
 // プレイヤーサイズ
 #define PLAYER_WIDTH	(72.0f)
@@ -16,6 +17,8 @@ struct PlayerData
 	float posY;									// Y座標
 	float moveX;								// X移動量
 	float moveY;								// Y移動量
+	int bulletInterval;							// 銃のインターバル
+	BoxCollision boxCollision;					// 矩形当たり判定
 };
 
 // 関数のプロトタイプ宣言
@@ -28,4 +31,8 @@ void DrawPlayer();
 void FinPlayer();
 
 // 取得関数
-PlayerData GetPlayer();
+PlayerData* GetPlayer();
+
+// 当たり判定
+void PlayerHitNormalBlockX(MapChipData mapChipData);
+void PlayerHitNormalBlockY(MapChipData mapChipData);

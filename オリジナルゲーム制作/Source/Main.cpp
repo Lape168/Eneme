@@ -28,6 +28,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ LPSTR lpCm
 	//ゲームのメインループ
 	while (ProcessMessage() >= 0)
 	{
+		//ループ処理前に1ミリ秒止めると処理が安定する
+		Sleep(1);
+		
 		//画面をクリア
 		ClearDrawScreen();
 

@@ -3,7 +3,7 @@
 #include "../../Map/MapManager.h"
 #include "../../Player/Player.h"
 #include "../../Camera/Camera.h"
-//#include "../../Collision/Collision.h"
+#include "../../Collision/Collision.h"
 
 
 // 背景のスピード
@@ -55,7 +55,7 @@ void UpdatePlayScene()
 	UpdatePlayer();
 	
 	// 当たり判定
-//	CheckCollision();
+	CheckCollision();
 }
 
 void DrawPlayScene()

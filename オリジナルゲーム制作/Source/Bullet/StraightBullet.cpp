@@ -33,7 +33,7 @@ void LoadStraightBullet()
 {
 	// ƒvƒŒƒCƒ„[’Êí’e
 	int handle = 0;
-	handle = LoadGraph("Data/Bullet/Bullet.png");
+	handle = LoadGraph("Data/Bullet/Bullet2.png");
 	g_BulletHandle[STRAIGHT_BULLET_TYPE_PLAYER] = handle;
 }
 
