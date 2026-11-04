@@ -7,30 +7,30 @@
 // プレイヤー設定関連
 #define PLAYER_DEFAULT_POS_X		(400.0f)
 #define PLAYER_DEFAULT_POS_Y		(300.0f)
-#define PLAYER_MOVE_SPEED			(4.0f)
+#define PLAYER_MOVE_SPEED			(6.0f)
 #define PLAYER_MAP_COLLISION_OFFSET (0.10f)
 
 // 矩形判定の位置補正
-#define PLAYER_BOX_COLLISION_OFFSET_X (24)
-#define PLAYER_BOX_COLLISION_OFFSET_Y (20)
+#define PLAYER_BOX_COLLISION_OFFSET_X (40)
+#define PLAYER_BOX_COLLISION_OFFSET_Y (0)
 // 矩形判定のサイズ
 #define PLAYER_BOX_COLLISION_WIDTH (20)
-#define PLAYER_BOX_COLLISION_HEIGHT (44)
+#define PLAYER_BOX_COLLISION_HEIGHT (50)
 
 //弾関連
-#define PLAYER_BULLET_SPEED_X	(5.0f)
+#define PLAYER_BULLET_SPEED_X	(8.0f)
 #define PLAYER_BULLET_SPEED_Y	(0.0f)
-#define PLAYER_BULLET_LIFE		(600)
-#define PLAYER_BULLET_OFFSET_X	(15.0f)
-#define PLAYER_BULLET_OFFSET_Y	(-20.0f)
+#define PLAYER_BULLET_LIFE		(120)
+#define PLAYER_BULLET_OFFSET_X	(34.0f)
+#define PLAYER_BULLET_OFFSET_Y	(18.0f)
 #define PLAYER_BULLET_RADIUS	(8)
-#define PLAYER_BULLET_INTERVAL  (10)
+#define PLAYER_BULLET_INTERVAL  (20)
 
 // ジャンプ力
-#define PLAYER_JUMP_POWER (2.0f)
+#define PLAYER_JUMP_POWER (7.0f)
 
 // 重力
-#define PLAYER_GRAVITY (0.03f)
+#define PLAYER_GRAVITY (0.2f)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -52,7 +52,9 @@ void InitPlayer()
 
 void LoadPlayer()
 {
-	g_PlayerData.handle = LoadGraph("Data/Player/Player_JumpFall.png");
+	g_PlayerData.handle = LoadGraph("Data/Player/Player_Shot.png");
+	g_PlayerData.handle = LoadGraph("Data/Player/Player_JumpUp.png");
+	g_PlayerData.handle = LoadGraph("Data/Player/Player_Down.png");
 }
 
 void StartPlayer()
@@ -93,12 +95,24 @@ void StepPlayer()
 	{
 		g_PlayerData.moveX = -PLAYER_MOVE_SPEED;
 		g_PlayerData.isTurn = true;
+
+		//スペース入力
+		if (IsInputKey(KEY_SPACE))
+		{
+			g_PlayerData.moveY = -PLAYER_JUMP_POWER;
+		}
 	}
 	// 右入力
 	else if (IsInputKey(KEY_RIGHT))
 	{
 		g_PlayerData.moveX = PLAYER_MOVE_SPEED;
 		g_PlayerData.isTurn = false;
+
+		//スペース入力
+		if (IsInputKey(KEY_SPACE))
+		{
+			g_PlayerData.moveY = -PLAYER_JUMP_POWER;
+		}
 	}
 	else if (IsInputKey(KEY_Z))
 	{
@@ -136,6 +150,14 @@ void UpdatePlayer()
 		g_PlayerData.isAir = true;
 	}
 
+	if (g_PlayerData.isAir = true && g_PlayerData.moveY > 0)
+	{
+		
+	}
+	if (g_PlayerData.isAir = true && g_PlayerData.moveY < 0)
+	{
+		
+	}
 	// 移動処理
 	g_PlayerData.posX += g_PlayerData.moveX;
 	g_PlayerData.posY += g_PlayerData.moveY;

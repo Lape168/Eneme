@@ -63,7 +63,7 @@ void ChceckMapPlayerCollision()
 			switch (mapChipData.mapChip)
 			{
 			case NORMAL_BLOCK:
-//				PlayerHitNormalBlockX(mapChipData);
+				PlayerHitNormalBlockX(mapChipData);
 				break;
 			}
 		}
@@ -87,7 +87,7 @@ void ChceckMapPlayerCollision()
 			switch (mapChipData.mapChip)
 			{
 			case NORMAL_BLOCK:
-	//			PlayerHitNormalBlockY(mapChipData);
+				PlayerHitNormalBlockY(mapChipData);
 				break;
 			}
 		}

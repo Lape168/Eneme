@@ -4,6 +4,7 @@
 #include "../../Player/Player.h"
 #include "../../Camera/Camera.h"
 #include "../../Collision/Collision.h"
+#include "../../Bullet/BulletManager.h"
 
 
 // 背景のスピード
@@ -17,6 +18,9 @@ void InitPlayScene()
 	// マップ初期化
 	InitMap();
 
+	//弾の初期化
+	InitBullet();
+	
 	// カメラ初期化
 	InitCamera();
 }
@@ -28,6 +32,9 @@ void LoadPlayScene()
 
 	// マップをロード
 	LoadMap();
+
+	//弾をロード
+	LoadBullet();
 }
 
 void StartPlayScene()
@@ -46,6 +53,9 @@ void StepPlayScene()
 
 	// カメラステップ
 	StepCamera();
+
+	//弾ステップ
+	StepBullet();
 }
 
 void UpdatePlayScene()
@@ -54,6 +64,9 @@ void UpdatePlayScene()
 	// プレイヤー更新
 	UpdatePlayer();
 	
+	//弾を更新
+	UpdateBullet();
+
 	// 当たり判定
 	CheckCollision();
 }
@@ -66,6 +79,9 @@ void DrawPlayScene()
 	// プレイヤー描画
 	DrawPlayer();
 
+	//弾を描画
+	DrawBullet();
+
 	// カメラ描画
 	DrawCamera();
 }
@@ -77,4 +93,7 @@ void FinPlayScene()
 
 	// プレイヤー終了
 	FinPlayer();
+
+	//弾を終了
+	FinBullet();
 }
