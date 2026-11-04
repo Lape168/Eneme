@@ -13,12 +13,18 @@ struct PlayerData
 	bool active;								// 生存フラグ
 	bool isTurn;								// 左を向いているか
 	bool isAir;									// 空中にいるか
-	float posX;									// X座標
-	float posY;									// Y座標
-	float moveX;								// X移動量
-	float moveY;								// Y移動量
 	int bulletInterval;							// 銃のインターバル
+	VECTOR pos;									// 座標
+	VECTOR move;								// 移動量
 	BoxCollision boxCollision;					// 矩形当たり判定
+};
+
+struct Motion
+{
+	int walk;
+	int jump_up;
+	int jump_fall;
+	int shot;
 };
 
 // 関数のプロトタイプ宣言

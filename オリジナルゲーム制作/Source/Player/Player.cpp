@@ -34,15 +34,16 @@
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
+Motion g_MotionData = { 0 };
 
 void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h);
 
 void InitPlayer()
 {
-	g_PlayerData.posX = PLAYER_DEFAULT_POS_X;
-	g_PlayerData.posY = PLAYER_DEFAULT_POS_Y;
-	g_PlayerData.moveX = 0.0f;
-	g_PlayerData.moveY = 0.0f;
+	g_PlayerData.pos.x = PLAYER_DEFAULT_POS_X;
+	g_PlayerData.pos.y = PLAYER_DEFAULT_POS_Y;
+	g_PlayerData.move.x = 0.0f;
+	g_PlayerData.move.y = 0.0f;
 	g_PlayerData.bulletInterval = 0;
 	g_PlayerData.active = false;
 
@@ -52,9 +53,9 @@ void InitPlayer()
 
 void LoadPlayer()
 {
-	g_PlayerData.handle = LoadGraph("Data/Player/Player_Shot.png");
-	g_PlayerData.handle = LoadGraph("Data/Player/Player_JumpUp.png");
-	g_PlayerData.handle = LoadGraph("Data/Player/Player_Down.png");
+	g_MotionData.shot = LoadGraph("Data/Player/Player_Shot.png");
+	g_MotionData.jump_up = LoadGraph("Data/Player/Player_JumpUp.png");
+	g_MotionData.jump_fall = LoadGraph("Data/Player/Player_JumpFall.png");
 }
 
 void StartPlayer()
@@ -79,10 +80,10 @@ void StepPlayer()
 	g_PrevPlayerData = g_PlayerData;
 
 	// X移動量は毎回リセットする
-	g_PlayerData.moveX = 0.0f;
+	g_PlayerData.move.x = 0.0f;
 
 	// Y移動量に重力を反映
-	g_PlayerData.moveY += PLAYER_GRAVITY;
+	g_PlayerData.move.y += PLAYER_GRAVITY;
 
 	//弾のインターバルの時間を減らす
 	if (g_PlayerData.bulletInterval > 0)
@@ -93,37 +94,75 @@ void StepPlayer()
 	// 左入力
 	if (IsInputKey(KEY_LEFT))
 	{
-		g_PlayerData.moveX = -PLAYER_MOVE_SPEED;
+		g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
 		g_PlayerData.isTurn = true;
 
 		//スペース入力
 		if (IsInputKey(KEY_SPACE))
 		{
-			g_PlayerData.moveY = -PLAYER_JUMP_POWER;
+			g_PlayerData.move.y = -PLAYER_JUMP_POWER;
+		}
+		//Zキー入力
+		if (IsInputKey(KEY_Z))
+		{
+			PlayerData* player = GetPlayer();
+
+			float fireX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_X;
+			float fireY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_Y;
+			if (g_PlayerData.bulletInterval <= 0)
+			{
+				if (player->active)
+				{
+					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireX, fireY, -PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+				}
+				// インターバル設定
+				g_PlayerData.bulletInterval = PLAYER_BULLET_INTERVAL;
+			}
+
 		}
 	}
 	// 右入力
 	else if (IsInputKey(KEY_RIGHT))
 	{
-		g_PlayerData.moveX = PLAYER_MOVE_SPEED;
+		g_PlayerData.move.x = PLAYER_MOVE_SPEED;
 		g_PlayerData.isTurn = false;
 
 		//スペース入力
 		if (IsInputKey(KEY_SPACE))
 		{
-			g_PlayerData.moveY = -PLAYER_JUMP_POWER;
+			g_PlayerData.move.y = -PLAYER_JUMP_POWER;
+		}
+		//Zキー入力
+		if (IsInputKey(KEY_Z))
+		{
+			PlayerData* player = GetPlayer();
+
+			float fireX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_X;
+			float fireY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_Y;
+			if (g_PlayerData.bulletInterval <= 0)
+			{
+				if (player->active)
+				{
+					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireX, fireY, PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+				}
+				// インターバル設定
+				g_PlayerData.bulletInterval = PLAYER_BULLET_INTERVAL;
+			}
+
 		}
 	}
+	//Zキー入力
 	else if (IsInputKey(KEY_Z))
 	{
 		PlayerData* player = GetPlayer();
 
-		float fireX = g_PlayerData.posX + PLAYER_BULLET_OFFSET_X;
-		float fireY = g_PlayerData.posY + PLAYER_BULLET_OFFSET_Y;
+		float fireX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_X;
+		float fireY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_Y;
 		if (g_PlayerData.bulletInterval <= 0)
 		{
 			if (player->active)
 			{
+				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shot, TRUE);
 				RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireX, fireY, PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
 			}
 			// インターバル設定
@@ -134,7 +173,7 @@ void StepPlayer()
 	//スペース入力
 	else if (IsInputKey(KEY_SPACE))
 	{
-		g_PlayerData.moveY = -PLAYER_JUMP_POWER;
+		g_PlayerData.move.y = -PLAYER_JUMP_POWER;
 	}
 
 }
@@ -145,22 +184,22 @@ void UpdatePlayer()
 	if (!g_PlayerData.active) return;
 
 	// 上昇しているもしくは落ちている場合は空中フラグを立てる
-	if (g_PlayerData.moveY < 0.0f || g_PlayerData.moveY > PLAYER_GRAVITY)
+	if (g_PlayerData.move.y < 0.0f || g_PlayerData.move.y > PLAYER_GRAVITY)
 	{
 		g_PlayerData.isAir = true;
 	}
 
-	if (g_PlayerData.isAir = true && g_PlayerData.moveY > 0)
+	if (g_PlayerData.isAir = true && g_PlayerData.move.y > 0)
 	{
-		
+
 	}
-	if (g_PlayerData.isAir = true && g_PlayerData.moveY < 0)
+	if (g_PlayerData.isAir = true && g_PlayerData.move.y < 0)
 	{
-		
+
 	}
 	// 移動処理
-	g_PlayerData.posX += g_PlayerData.moveX;
-	g_PlayerData.posY += g_PlayerData.moveY;
+	g_PlayerData.pos.x += g_PlayerData.move.x;
+	g_PlayerData.pos.y += g_PlayerData.move.y;
 }
 
 void DrawPlayer()
@@ -168,7 +207,7 @@ void DrawPlayer()
 	// 死んでいたら処理しない
 	if (!g_PlayerData.active) return;
 
-	DrawGraph(g_PlayerData.posX, g_PlayerData.posY, g_PlayerData.handle, TRUE);
+	DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.walk, TRUE);
 }
 
 void FinPlayer()
@@ -192,8 +231,8 @@ void PlayerHitNormalBlockX(MapChipData mapChipData)
 	player.isTurn = g_PrevPlayerData.isTurn;
 
 	// Y移動を戻し、横に当たっているかチェック
-	player.posX = g_PlayerData.posX;
-	player.posY = g_PrevPlayerData.posY;
+	player.pos.x = g_PlayerData.pos.x;
+	player.pos.y = g_PrevPlayerData.pos.y;
 
 	// 当たり判定のボックス計算
 	float x, y, w, h;
@@ -203,16 +242,16 @@ void PlayerHitNormalBlockX(MapChipData mapChipData)
 		block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
 	{
 		// 左からあたったか
-		if (player.moveX > 0.0f)
+		if (player.move.x > 0.0f)
 		{
 			// 左に押し出す
-			g_PlayerData.posX -= (x + w) - block->pos.x;
+			g_PlayerData.pos.x -= (x + w) - block->pos.x;
 		}
 		// 右からあたったか
-		else if (player.moveX < 0.0f)
+		else if (player.move.x < 0.0f)
 		{
 			// 右に押し出す
-			g_PlayerData.posX += (block->pos.x + MAP_CHIP_WIDTH) - x;
+			g_PlayerData.pos.x += (block->pos.x + MAP_CHIP_WIDTH) - x;
 		}
 	}
 
@@ -237,20 +276,20 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 		block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
 	{
 		// Y移動量を0にする
-		g_PlayerData.moveY = 0.0f;
+		g_PlayerData.move.y = 0.0f;
 
 		// 上からあたったか
-		if (player.moveY > 0.0f)
+		if (player.move.y > 0.0f)
 		{
 			// 上に押し出す
-			g_PlayerData.posY -= (y + h) - block->pos.y;
+			g_PlayerData.pos.y -= (y + h) - block->pos.y;
 			g_PlayerData.isAir = false;
 		}
 		// 下からあたったか
-		else if (player.moveY < 0.0f)
+		else if (player.move.y < 0.0f)
 		{
 			// 下に押し出す
-			g_PlayerData.posY += (block->pos.y + MAP_CHIP_WIDTH) - y;
+			g_PlayerData.pos.y += (block->pos.y + MAP_CHIP_WIDTH) - y;
 		}
 	}
 }
@@ -258,9 +297,9 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
 {
 	x = player.isTurn ?
-		player.posX + PLAYER_WIDTH - player.boxCollision.posX - player.boxCollision.width :
-		player.posX + player.boxCollision.posX;
-	y = player.posY + player.boxCollision.posY;
+		player.pos.x + PLAYER_WIDTH - player.boxCollision.posX - player.boxCollision.width :
+		player.pos.x + player.boxCollision.posX;
+	y = player.pos.y + player.boxCollision.posY;
 	w = player.boxCollision.width;
 	h = player.boxCollision.height;
 }
