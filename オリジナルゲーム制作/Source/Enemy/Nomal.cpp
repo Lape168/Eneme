@@ -1,0 +1,31 @@
+#include "Nomal.h"
+
+void InitNomal()
+{
+
+}
+
+void LoadNomal()
+{
+
+}
+
+void StepNomal()
+{
+
+}
+
+void UpdateNomal()
+{
+
+}
+
+void DrawNomal()
+{
+
+}
+
+void FinNomal()
+{
+
+}

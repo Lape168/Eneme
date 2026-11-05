@@ -19,8 +19,8 @@ void InitBlock()
 void LoadBlock()
 {
 	g_BlockHandle[NORMAL_BLOCK] = LoadGraph("Data/Map/Normal_Block.png");
+	g_BlockHandle[NET] = LoadGraph("Data/Map/Net.png");
 	g_BlockHandle[BREAK_BLOCK] = LoadGraph("Data/Map/Break_Block.png");
-	g_BlockHandle[WOOD_BLOCK] = LoadGraph("Data/Map/Wood_Block.png");
 }
 
 void StartBlock()
@@ -41,7 +41,7 @@ void DrawBlock()
 	{
 		if (block->active)
 		{
-			DrawGraph((int)(block->pos.x - camera.posX), (int)(block->pos.y - camera.posY), block->handle, TRUE);
+			DrawGraph((int)(block->pos.x - camera.pos.x), (int)(block->pos.y - camera.pos.y), block->handle, TRUE);
 		}
 	}
 }

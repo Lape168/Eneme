@@ -26,7 +26,7 @@ void StepCamera()
 	else
 	{
 		// ’´‚¦‚Ä‚¢‚È‚¯‚ê‚Î’èˆÊ’u
-		g_CameraData.posX = 0.0f;
+		g_CameraData.pos.x = 0.0f;
 	}
 }
 

@@ -21,10 +21,14 @@ struct PlayerData
 
 struct Motion
 {
-	int walk;
-	int jump_up;
-	int jump_fall;
-	int shot;
+	int walkR;									//右方向の移動
+	int jump_upR;								//右方向のジャンプの上り
+	int jump_fallR;								//右方向のジャンプの下り
+	int shotR;									//右方向の銃発砲
+	int walkL;									//左方向の移動
+	int jump_upL;								//左方向のジャンプの上り
+	int jump_fallL;								//左方向のジャンプの下り
+	int shotL;									//左方向の銃発砲
 };
 
 // 関数のプロトタイプ宣言

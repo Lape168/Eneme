@@ -12,25 +12,27 @@
 
 // 矩形判定の位置補正
 #define PLAYER_BOX_COLLISION_OFFSET_X (40)
-#define PLAYER_BOX_COLLISION_OFFSET_Y (0)
+#define PLAYER_BOX_COLLISION_OFFSET_Y (15)
 // 矩形判定のサイズ
 #define PLAYER_BOX_COLLISION_WIDTH (20)
 #define PLAYER_BOX_COLLISION_HEIGHT (50)
 
 //弾関連
-#define PLAYER_BULLET_SPEED_X	(8.0f)
+#define PLAYER_BULLET_SPEED_X	(15.0f)
 #define PLAYER_BULLET_SPEED_Y	(0.0f)
-#define PLAYER_BULLET_LIFE		(120)
-#define PLAYER_BULLET_OFFSET_X	(34.0f)
-#define PLAYER_BULLET_OFFSET_Y	(18.0f)
+#define PLAYER_BULLET_LIFE		(60)
+#define PLAYER_BULLET_OFFSET_R_X	(40.0f)
+#define PLAYER_BULLET_OFFSET_R_Y	(21.0f)
+#define PLAYER_BULLET_OFFSET_L_X	(12.0f)
+#define PLAYER_BULLET_OFFSET_L_Y	(21.0f)
 #define PLAYER_BULLET_RADIUS	(8)
 #define PLAYER_BULLET_INTERVAL  (20)
 
 // ジャンプ力
-#define PLAYER_JUMP_POWER (7.0f)
+#define PLAYER_JUMP_POWER (10.0f)
 
 // 重力
-#define PLAYER_GRAVITY (0.2f)
+#define PLAYER_GRAVITY (0.3f)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -53,9 +55,14 @@ void InitPlayer()
 
 void LoadPlayer()
 {
-	g_MotionData.shot = LoadGraph("Data/Player/Player_Shot.png");
-	g_MotionData.jump_up = LoadGraph("Data/Player/Player_JumpUp.png");
-	g_MotionData.jump_fall = LoadGraph("Data/Player/Player_JumpFall.png");
+	g_MotionData.walkR = LoadGraph("Data/Player/Player_WalkR.png");
+	g_MotionData.shotR = LoadGraph("Data/Player/Player_ShotR.png");
+	g_MotionData.jump_upR = LoadGraph("Data/Player/Player_JumpUpR.png");
+	g_MotionData.jump_fallR = LoadGraph("Data/Player/Player_JumpFallR.png");
+	g_MotionData.walkL = LoadGraph("Data/Player/Player_WalkL.png");
+	g_MotionData.shotL = LoadGraph("Data/Player/Player_ShotL.png");
+	g_MotionData.jump_upL = LoadGraph("Data/Player/Player_JumpUpL.png");
+	g_MotionData.jump_fallL = LoadGraph("Data/Player/Player_JumpFallL.png");
 }
 
 void StartPlayer()
@@ -98,7 +105,7 @@ void StepPlayer()
 		g_PlayerData.isTurn = true;
 
 		//スペース入力
-		if (IsInputKey(KEY_SPACE))
+		if (IsInputKey(KEY_SPACE) && !g_PlayerData.isAir)
 		{
 			g_PlayerData.move.y = -PLAYER_JUMP_POWER;
 		}
@@ -107,13 +114,22 @@ void StepPlayer()
 		{
 			PlayerData* player = GetPlayer();
 
-			float fireX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_X;
-			float fireY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_Y;
+			float fireRX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_R_X;
+			float fireRY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_R_Y;
+			float fireLX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_L_X;
+			float fireLY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_L_Y;
 			if (g_PlayerData.bulletInterval <= 0)
 			{
 				if (player->active)
 				{
-					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireX, fireY, -PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+					if (g_PlayerData.isTurn == true)
+					{
+						RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireLX, fireLY, -PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+					}
+					if (!g_PlayerData.isTurn)
+					{
+						RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+					}
 				}
 				// インターバル設定
 				g_PlayerData.bulletInterval = PLAYER_BULLET_INTERVAL;
@@ -128,7 +144,7 @@ void StepPlayer()
 		g_PlayerData.isTurn = false;
 
 		//スペース入力
-		if (IsInputKey(KEY_SPACE))
+		if (IsInputKey(KEY_SPACE)&& !g_PlayerData.isAir)
 		{
 			g_PlayerData.move.y = -PLAYER_JUMP_POWER;
 		}
@@ -137,13 +153,22 @@ void StepPlayer()
 		{
 			PlayerData* player = GetPlayer();
 
-			float fireX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_X;
-			float fireY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_Y;
+			float fireRX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_R_X;
+			float fireRY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_R_Y;
+			float fireLX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_L_X;
+			float fireLY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_L_Y;
 			if (g_PlayerData.bulletInterval <= 0)
 			{
 				if (player->active)
 				{
-					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireX, fireY, PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+					if (g_PlayerData.isTurn == true)
+					{
+						RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireLX, fireLY, -PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+					}
+					if (!g_PlayerData.isTurn)
+					{
+						RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+					}
 				}
 				// インターバル設定
 				g_PlayerData.bulletInterval = PLAYER_BULLET_INTERVAL;
@@ -156,14 +181,22 @@ void StepPlayer()
 	{
 		PlayerData* player = GetPlayer();
 
-		float fireX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_X;
-		float fireY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_Y;
+		float fireRX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_R_X;
+		float fireRY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_R_Y;
+		float fireLX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_L_X;
+		float fireLY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_L_Y;
 		if (g_PlayerData.bulletInterval <= 0)
 		{
 			if (player->active)
 			{
-				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shot, TRUE);
-				RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireX, fireY, PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+				if (g_PlayerData.isTurn == true)
+				{
+					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireLX, fireLY, -PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+				}
+				if (!g_PlayerData.isTurn)
+				{
+					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+				}
 			}
 			// インターバル設定
 			g_PlayerData.bulletInterval = PLAYER_BULLET_INTERVAL;
@@ -171,7 +204,7 @@ void StepPlayer()
 
 	}
 	//スペース入力
-	else if (IsInputKey(KEY_SPACE))
+	else if (IsInputKey(KEY_SPACE) && !g_PlayerData.isAir)
 	{
 		g_PlayerData.move.y = -PLAYER_JUMP_POWER;
 	}
@@ -189,14 +222,6 @@ void UpdatePlayer()
 		g_PlayerData.isAir = true;
 	}
 
-	if (g_PlayerData.isAir = true && g_PlayerData.move.y > 0)
-	{
-
-	}
-	if (g_PlayerData.isAir = true && g_PlayerData.move.y < 0)
-	{
-
-	}
 	// 移動処理
 	g_PlayerData.pos.x += g_PlayerData.move.x;
 	g_PlayerData.pos.y += g_PlayerData.move.y;
@@ -207,7 +232,39 @@ void DrawPlayer()
 	// 死んでいたら処理しない
 	if (!g_PlayerData.active) return;
 
-	DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.walk, TRUE);
+	if (g_PlayerData.move.y > 0 && !IsInputKey(KEY_Z)&& !g_PlayerData.isTurn)
+	{
+		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_fallR, TRUE);
+	}
+	if (g_PlayerData.move.y < 0 && !IsInputKey(KEY_Z) && !g_PlayerData.isTurn)
+	{
+		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_upR, TRUE);
+	}
+	if (g_PlayerData.move.y == 0 && !IsInputKey(KEY_Z) && !g_PlayerData.isTurn)
+	{
+		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.walkR, TRUE);
+	}
+	if (IsInputKey(KEY_Z) && !g_PlayerData.isTurn)
+	{
+		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotR, TRUE);
+	}
+
+	if (g_PlayerData.move.y > 0 && !IsInputKey(KEY_Z) && g_PlayerData.isTurn == true)
+	{
+		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_fallL, TRUE);
+	}
+	if (g_PlayerData.move.y < 0 && !IsInputKey(KEY_Z) && g_PlayerData.isTurn == true)
+	{
+		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_upL, TRUE);
+	}
+	if (g_PlayerData.move.y == 0 && !IsInputKey(KEY_Z) && g_PlayerData.isTurn == true)
+	{
+		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.walkL, TRUE);
+	}
+	if (IsInputKey(KEY_Z) && g_PlayerData.isTurn == true)
+	{
+		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotL, TRUE);
+	}
 }
 
 void FinPlayer()
