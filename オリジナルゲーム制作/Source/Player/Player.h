@@ -31,6 +31,20 @@ struct Motion
 	int shotL;									//左方向の銃発砲
 };
 
+struct Body
+{
+	bool isAir;
+	VECTOR pos;
+	VECTOR move;
+	float width;
+	float height;
+	float radius;
+	float reflactPower;
+	VECTOR prevPos;
+	const Body* hitBlock;
+	const Body* groundBlock;
+};
+
 // 関数のプロトタイプ宣言
 void InitPlayer();
 void LoadPlayer();

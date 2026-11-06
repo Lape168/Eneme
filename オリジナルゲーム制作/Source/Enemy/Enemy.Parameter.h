@@ -8,7 +8,7 @@ enum EnemyType
 	BOMB,
 };
 
-struct EnemyData
+struct NomalEnemyData
 {
 	bool active;
 	int handle;
