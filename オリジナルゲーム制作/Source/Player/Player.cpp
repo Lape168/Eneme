@@ -14,7 +14,7 @@
 #define PLAYER_BOX_COLLISION_OFFSET_X (40)
 #define PLAYER_BOX_COLLISION_OFFSET_Y (15)
 // 矩形判定のサイズ
-#define PLAYER_BOX_COLLISION_WIDTH (20)
+#define PLAYER_BOX_COLLISION_WIDTH (15)
 #define PLAYER_BOX_COLLISION_HEIGHT (50)
 
 //弾関連
@@ -144,7 +144,7 @@ void StepPlayer()
 		g_PlayerData.isTurn = false;
 
 		//スペース入力
-		if (IsInputKey(KEY_SPACE)&& !g_PlayerData.isAir)
+		if (IsInputKey(KEY_SPACE) && !g_PlayerData.isAir)
 		{
 			g_PlayerData.move.y = -PLAYER_JUMP_POWER;
 		}
@@ -232,7 +232,7 @@ void DrawPlayer()
 	// 死んでいたら処理しない
 	if (!g_PlayerData.active) return;
 
-	if (g_PlayerData.move.y > 0 && !IsInputKey(KEY_Z)&& !g_PlayerData.isTurn)
+	if (g_PlayerData.move.y > 0 && !IsInputKey(KEY_Z) && !g_PlayerData.isTurn)
 	{
 		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_fallR, TRUE);
 	}

@@ -1,14 +1,14 @@
 #include "EnemyManager.h"
 #include "../Enemy/Nomal.h"
 
-int g_EnemySpawnTimer = 0;
-
 void InitEnemy()
 {
-	// エネミー出現タイマーを初期化
-	g_EnemySpawnTimer = 0;
-
 	InitNomal();
+}
+
+void StartEnemy()
+{
+	StartNomal();
 }
 
 void LoadEnemy()
