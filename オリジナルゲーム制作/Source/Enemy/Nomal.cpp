@@ -9,17 +9,17 @@
 #define NOMAL_ENEMY_MAP_COLLISION_OFFSET (0.10f)
 
 // 矩形判定の位置補正
-#define NOMAL_ENEMY_BOX_COLLISION_OFFSET_X (40)
+#define NOMAL_ENEMY_BOX_COLLISION_OFFSET_X (10)
 #define NOMAL_ENEMY_BOX_COLLISION_OFFSET_Y (15)
 // 矩形判定のサイズ
-#define NOMAL_ENEMY_BOX_COLLISION_WIDTH (15)
+#define NOMAL_ENEMY_BOX_COLLISION_WIDTH (45)
 #define NOMAL_ENEMY_BOX_COLLISION_HEIGHT (50)
 
 // ジャンプ力
 #define NOMAL_ENEMY_JUMP_POWER (10.0f)
 
 // 重力
-#define NOMAL_ENEMY_GRAVITY (0.0f)
+#define NOMAL_ENEMY_GRAVITY (0.3f)
 
 void CalcBoxCollision(NomalEnemyData nomalenemy, float& x, float& y, float& w, float& h);
 
@@ -97,29 +97,28 @@ void NomalEnemyHitNormalBlockX(MapChipData mapChipData)
 	// ターンフラグは前回のものにしないと反転した分ずれる
 	nomalenemy.isTurn = g_PrevNomalEnemyData.isTurn;
 
+	// Y移動を戻し、横に当たっているかチェック
+	nomalenemy.pos.x = g_NomalEnemyData.pos.x;
+	nomalenemy.pos.y = g_PrevNomalEnemyData.pos.y;
+
 	// 当たり判定のボックス計算
 	float x, y, w, h;
 	CalcBoxCollision(nomalenemy, x, y, w, h);
 
-	// まだ当たっているなら縦に当たっている
 	if (CheckSquareSquare(x + POS_OFFSET, y + POS_OFFSET, w - SIZE_OFFSET, h - SIZE_OFFSET,
 		block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
 	{
-		// Y移動量を0にする
-		g_NomalEnemyData.move.y = 0.0f;
-
-		// 上からあたったか
-		if (nomalenemy.move.y > 0.0f)
+		// 左からあたったか
+		if (nomalenemy.move.x > 0.0f)
 		{
-			// 上に押し出す
-			g_NomalEnemyData.pos.y -= (y + h) - block->pos.y;
-			g_NomalEnemyData.isAir = false;
+			// 左に押し出す
+			g_NomalEnemyData.pos.x -= (x + w) - block->pos.x;
 		}
-		// 下からあたったか
-		else if (nomalenemy.move.y < 0.0f)
+		// 右からあたったか
+		else if (nomalenemy.move.x < 0.0f)
 		{
-			// 下に押し出す
-			g_NomalEnemyData.pos.y += (block->pos.y + MAP_CHIP_WIDTH) - y;
+			// 右に押し出す
+			g_NomalEnemyData.pos.x += (block->pos.x + MAP_CHIP_WIDTH) - x;
 		}
 	}
 }

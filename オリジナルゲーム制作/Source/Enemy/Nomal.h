@@ -1,6 +1,7 @@
 #pragma once
 #include "../Map/MapChip.h"
 #include "../Collision/Collision.h"
+#include "Enemy.Parameter.h"
 
 // “G‚ÌƒTƒCƒY
 #define NOMAL_ENEMY_WIDTH	(72.0f)
@@ -15,7 +16,7 @@ void UpdateNomal();
 void DrawNomal();
 void FinNomal();
 
-//NomalEnemyData* GetNomalEnemy();
+NomalEnemyData* GetNomalEnemy();
 
 // “–‚½‚è”»’è
 void NomalEnemyHitNormalBlockX(MapChipData mapChipData);
