@@ -1,9 +1,11 @@
 #include "Nomal.h"
 #include "../Enemy/Enemy.Parameter.h"
 #include "../Input/Input.h"
+#include "../Player/Player.h"
+#include <math.h>
 
 
-#define NOMAL_ENEMY_MOVE_SPEED (8.0f)
+#define NOMAL_ENEMY_MOVE_SPEED (5.5f)
 #define NOMAL_ENEMY_DEFAULT_POS_X		(800.0f)
 #define NOMAL_ENEMY_DEFAULT_POS_Y		(100.0f)
 #define NOMAL_ENEMY_MAP_COLLISION_OFFSET (0.10f)
@@ -64,17 +66,44 @@ void StepNomal()
 	{
 		g_NomalEnemyData.move.x = NOMAL_ENEMY_MOVE_SPEED;
 	}
+	if (IsInputKey(KEY_SPACE) && !g_NomalEnemyData.isAir)
+	{
+		g_NomalEnemyData.move.y -= NOMAL_ENEMY_JUMP_POWER;
+	}
+
+	PlayerData* player = GetPlayer();
+	float dir = player->pos.x - g_NomalEnemyData.pos.x;
+
+	float min = fabs(dir) < NOMAL_ENEMY_MOVE_SPEED / 5 ?
+		fabs(dir) :
+		NOMAL_ENEMY_MOVE_SPEED / 5;
+
+	if (dir > 0)
+	{
+		g_NomalEnemyData.move.x += min;
+	}
+	else if (dir < 0)
+	{
+		g_NomalEnemyData.move.x -= min;
+	}
+
 }
 
 void UpdateNomal()
 {
+	// ã¸‚µ‚Ä‚¢‚é‚à‚µ‚­‚Í—Ž‚¿‚Ä‚¢‚éê‡‚Í‹ó’†ƒtƒ‰ƒO‚ð—§‚Ä‚é
+	if (g_NomalEnemyData.move.y < 0.0f || g_NomalEnemyData.move.y > NOMAL_ENEMY_GRAVITY)
+	{
+		g_NomalEnemyData.isAir = true;
+	}
+
 	g_NomalEnemyData.pos.x += g_NomalEnemyData.move.x;
 	g_NomalEnemyData.pos.y += g_NomalEnemyData.move.y;
 }
 
 void DrawNomal()
 {
-	DrawGraph(g_NomalEnemyData.pos.x,g_NomalEnemyData.pos.y,g_NomalEnemyData.handle,TRUE);
+	DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y, g_NomalEnemyData.handle, TRUE);
 }
 
 void FinNomal()

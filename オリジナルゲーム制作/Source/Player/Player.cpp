@@ -11,10 +11,10 @@
 #define PLAYER_MAP_COLLISION_OFFSET (0.10f)
 
 // 矩形判定の位置補正
-#define PLAYER_BOX_COLLISION_OFFSET_X (40)
+#define PLAYER_BOX_COLLISION_OFFSET_X (30)
 #define PLAYER_BOX_COLLISION_OFFSET_Y (15)
 // 矩形判定のサイズ
-#define PLAYER_BOX_COLLISION_WIDTH (15)
+#define PLAYER_BOX_COLLISION_WIDTH (35)
 #define PLAYER_BOX_COLLISION_HEIGHT (50)
 
 //弾関連
@@ -103,81 +103,15 @@ void StepPlayer()
 	{
 		g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
 		g_PlayerData.isTurn = true;
-
-		//スペース入力
-		if (IsInputKey(KEY_SPACE) && !g_PlayerData.isAir)
-		{
-			g_PlayerData.move.y = -PLAYER_JUMP_POWER;
-		}
-		//Zキー入力
-		if (IsInputKey(KEY_Z))
-		{
-			PlayerData* player = GetPlayer();
-
-			float fireRX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_R_X;
-			float fireRY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_R_Y;
-			float fireLX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_L_X;
-			float fireLY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_L_Y;
-			if (g_PlayerData.bulletInterval <= 0)
-			{
-				if (player->active)
-				{
-					if (g_PlayerData.isTurn == true)
-					{
-						RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireLX, fireLY, -PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
-					}
-					if (!g_PlayerData.isTurn)
-					{
-						RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
-					}
-				}
-				// インターバル設定
-				g_PlayerData.bulletInterval = PLAYER_BULLET_INTERVAL;
-			}
-
-		}
 	}
 	// 右入力
 	else if (IsInputKey(KEY_RIGHT))
 	{
 		g_PlayerData.move.x = PLAYER_MOVE_SPEED;
 		g_PlayerData.isTurn = false;
-
-		//スペース入力
-		if (IsInputKey(KEY_SPACE) && !g_PlayerData.isAir)
-		{
-			g_PlayerData.move.y = -PLAYER_JUMP_POWER;
-		}
-		//Zキー入力
-		if (IsInputKey(KEY_Z))
-		{
-			PlayerData* player = GetPlayer();
-
-			float fireRX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_R_X;
-			float fireRY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_R_Y;
-			float fireLX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_L_X;
-			float fireLY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_L_Y;
-			if (g_PlayerData.bulletInterval <= 0)
-			{
-				if (player->active)
-				{
-					if (g_PlayerData.isTurn == true)
-					{
-						RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireLX, fireLY, -PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
-					}
-					if (!g_PlayerData.isTurn)
-					{
-						RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
-					}
-				}
-				// インターバル設定
-				g_PlayerData.bulletInterval = PLAYER_BULLET_INTERVAL;
-			}
-
-		}
 	}
 	//Zキー入力
-	else if (IsInputKey(KEY_Z))
+	if (IsInputKey(KEY_Z))
 	{
 		PlayerData* player = GetPlayer();
 
@@ -204,7 +138,7 @@ void StepPlayer()
 
 	}
 	//スペース入力
-	else if (IsInputKey(KEY_SPACE) && !g_PlayerData.isAir)
+	if (IsInputKey(KEY_SPACE) && !g_PlayerData.isAir)
 	{
 		g_PlayerData.move.y = -PLAYER_JUMP_POWER;
 	}

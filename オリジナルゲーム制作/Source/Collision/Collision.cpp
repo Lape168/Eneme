@@ -122,5 +122,6 @@ void CheckCollision()
 {
 	// プレイヤーとマップの当たり判定
 	ChceckMapPlayerCollision();
+	//通常敵とマップの当たり判定
 	CheckMapNomalEnemyCollision();
 }
