@@ -60,11 +60,11 @@ void StepNomal()
 
 	if (IsInputKey(KEY_LEFT))
 	{
-		g_NomalEnemyData.move.x = -NOMAL_ENEMY_MOVE_SPEED;
+		g_NomalEnemyData.move.x = -NOMAL_ENEMY_MOVE_SPEED / 2;
 	}
 	if (IsInputKey(KEY_RIGHT))
 	{
-		g_NomalEnemyData.move.x = NOMAL_ENEMY_MOVE_SPEED;
+		g_NomalEnemyData.move.x = NOMAL_ENEMY_MOVE_SPEED / 2;
 	}
 	if (IsInputKey(KEY_SPACE) && !g_NomalEnemyData.isAir)
 	{
