@@ -21,12 +21,14 @@
 #define NOMAL_ENEMY_JUMP_POWER (10.0f)
 
 // d—Í
-#define NOMAL_ENEMY_GRAVITY (0.3f)
+#define NOMAL_ENEMY_GRAVITY (0.25f)
 
 void CalcBoxCollision(NomalEnemyData nomalenemy, float& x, float& y, float& w, float& h);
 
 NomalEnemyData g_NomalEnemyData = { 0 };
 NomalEnemyData g_PrevNomalEnemyData = { 0 };
+
+EnemyMotion g_EnemyMotion = { 0 };
 
 void InitNomal()
 {
@@ -47,7 +49,8 @@ void StartNomal()
 
 void LoadNomal()
 {
-	g_NomalEnemyData.handle = LoadGraph("Data/Enemy/EnemyR.png");
+	g_EnemyMotion.walkR = LoadGraph("Data/Enemy/EnemyR.png");
+	g_EnemyMotion.walkL = LoadGraph("Data/Enemy/EnemyL.png");
 }
 
 void StepNomal()
@@ -103,7 +106,15 @@ void UpdateNomal()
 
 void DrawNomal()
 {
-	DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y, g_NomalEnemyData.handle, TRUE);
+	PlayerData* player = GetPlayer();
+	if (player->pos.x < g_NomalEnemyData.pos.x)
+	{
+		DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y, g_EnemyMotion.walkL, TRUE);
+	}
+	if (player->pos.x >= g_NomalEnemyData.pos.x)
+	{
+		DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y, g_EnemyMotion.walkR, TRUE);
+	}
 }
 
 void FinNomal()
