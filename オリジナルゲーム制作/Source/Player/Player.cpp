@@ -110,9 +110,11 @@ void StepPlayer()
 		g_PlayerData.move.x = PLAYER_MOVE_SPEED;
 		g_PlayerData.isTurn = false;
 	}
+	g_PlayerData.isAtk = false;
 	//ZÉLÅ[ì¸óÕ
 	if (IsInputKey(KEY_Z))
 	{
+		g_PlayerData.isAtk = true;
 		PlayerData* player = GetPlayer();
 
 		float fireRX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_R_X;
@@ -126,10 +128,12 @@ void StepPlayer()
 				if (g_PlayerData.isTurn == true)
 				{
 					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireLX, fireLY, -PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+					g_PlayerData.isFire = true;
 				}
 				if (!g_PlayerData.isTurn)
 				{
 					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, PLAYER_BULLET_SPEED_X, PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_RADIUS, BULLET_COLLISION_TAG_PLAYER);
+					g_PlayerData.isFire = true;
 				}
 			}
 			// ÉCÉìÉ^Å[ÉoÉãê›íË
@@ -166,44 +170,98 @@ void DrawPlayer()
 	// éÄÇÒÇ≈Ç¢ÇΩÇÁèàóùÇµÇ»Ç¢
 	if (!g_PlayerData.active) return;
 
-	if (g_PlayerData.move.y > 0 && !IsInputKey(KEY_Z) && !g_PlayerData.isTurn)
+	//ç∂å¸Ç´Ç©
+	if (g_PlayerData.isTurn == true)
 	{
-		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_fallR, TRUE);
+		if (g_PlayerData.isAir == true) //ãÛíÜÇ©
+		{
+			if (g_PlayerData.move.y > 0) //è„è∏íÜ
+			{
+				if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
+				{
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotL, TRUE); //çUåÇï\é¶
+				}
+				else
+				{
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_upL, TRUE); //è„è∏ï\é¶
+				}
+			}
+			else //â∫ç~íÜ
+			{
+				if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
+				{
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotL, TRUE); //çUåÇï\é¶
+				}
+				else
+				{
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_fallL, TRUE); //â∫ç~ï\é¶
+				}
+			}
+		}
+		else //ï‡Ç¢ÇƒÇ¢ÇΩÇÁ
+		{
+			if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
+			{
+				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotL, TRUE); //çUåÇï\é¶
+			}
+			else
+			{
+				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.walkL, TRUE); //ï‡Ç´ï\é¶
+			}
+		}
 	}
-	if (g_PlayerData.move.y < 0 && !IsInputKey(KEY_Z) && !g_PlayerData.isTurn)
+	else //âEå¸Ç´
 	{
-		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_upR, TRUE);
-	}
-	if (g_PlayerData.move.y == 0 && !IsInputKey(KEY_Z) && !g_PlayerData.isTurn)
-	{
-		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.walkR, TRUE);
-	}
-	if (IsInputKey(KEY_Z) && !g_PlayerData.isTurn)
-	{
-		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotR, TRUE);
-	}
-
-	if (g_PlayerData.move.y > 0 && !IsInputKey(KEY_Z) && g_PlayerData.isTurn == true)
-	{
-		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_fallL, TRUE);
-	}
-	if (g_PlayerData.move.y < 0 && !IsInputKey(KEY_Z) && g_PlayerData.isTurn == true)
-	{
-		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_upL, TRUE);
-	}
-	if (g_PlayerData.move.y == 0 && !IsInputKey(KEY_Z) && g_PlayerData.isTurn == true)
-	{
-		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.walkL, TRUE);
-	}
-	if (IsInputKey(KEY_Z) && g_PlayerData.isTurn == true)
-	{
-		DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotL, TRUE);
+		if (g_PlayerData.isAir == true) //ãÛíÜÇ©
+		{
+			if (g_PlayerData.move.y > 0) //è„è∏íÜ
+			{
+				if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
+				{
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotR, TRUE); //çUåÇï\é¶
+				}
+				else
+				{
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_upR, TRUE); //è„è∏ï\é¶
+				}
+			}
+			else //â∫ç~íÜ
+			{
+				if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
+				{
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotR, TRUE); //çUåÇï\é¶
+				}
+				else
+				{
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_fallR, TRUE); //â∫ç~ï\é¶
+				}
+			}
+		}
+		else //ï‡Ç¢ÇƒÇ¢ÇΩÇÁ
+		{
+			if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
+			{
+				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotR, TRUE); //çUåÇï\é¶
+			}
+			else
+			{
+				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.walkR, TRUE); //ï‡Ç´ï\é¶
+			}
+		}
 	}
 }
 
+
 void FinPlayer()
 {
-
+	DeleteGraph(g_MotionData.jump_fallL);
+	DeleteGraph(g_MotionData.jump_fallR);
+	DeleteGraph(g_MotionData.jump_upL);
+	DeleteGraph(g_MotionData.jump_upR);
+	DeleteGraph(g_MotionData.shotL);
+	DeleteGraph(g_MotionData.shotR);
+	DeleteGraph(g_MotionData.walkL);
+	DeleteGraph(g_MotionData.walkR);
 }
 
 PlayerData* GetPlayer()
@@ -293,5 +351,15 @@ void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
 	y = player.pos.y + player.boxCollision.posY;
 	w = player.boxCollision.width;
 	h = player.boxCollision.height;
+}
+
+void PlayerDead()
+{
+	g_PlayerData.active = false;
+}
+
+void PlayerHitEnemy()
+{
+	PlayerDead();
 }
 

@@ -120,7 +120,34 @@ bool CheckCircleCircle(float circleA_PosX, float circleA_PosY, float circleA_Rad
 	return false;
 }
 
+void CheckPlayerHitEnemy()
+{
+	PlayerData* player = GetPlayer();
+	NomalEnemyData* nomalenemy = GetNomalEnemy();
 
+	float playerleft = player->pos.x;
+	float playerright = player->pos.x + player->boxCollision.height;
+	float playertop = player->pos.y;
+	float playerbottom = player->pos.y + player->boxCollision.width;
+
+	float nomalenemyleft = nomalenemy->pos.x;
+	float nomalenemyright = nomalenemy->pos.x + nomalenemy->boxCollision.height;
+	float nomalenemytop = nomalenemy->pos.y;
+	float nomalenemybottom = nomalenemy->pos.y + nomalenemy->boxCollision.width;
+
+	if (player->active == true)
+	{	
+		// 左右の辺がめり込んでいるかチェック
+		if (playerright > nomalenemyleft && playerleft < nomalenemyright)
+		{
+			// 上下の片がめり込んでいるかチェック
+			if (playerbottom > nomalenemytop && playertop < nomalenemybottom)
+			{
+				PlayerHitEnemy();
+			}
+		}
+	}
+}
 
 void CheckCollision()
 {
@@ -128,4 +155,6 @@ void CheckCollision()
 	ChceckMapPlayerCollision();
 	//通常敵とマップの当たり判定
 	CheckMapNomalEnemyCollision();
+	//敵とプレイヤーの当たり判定
+	CheckPlayerHitEnemy();
 }

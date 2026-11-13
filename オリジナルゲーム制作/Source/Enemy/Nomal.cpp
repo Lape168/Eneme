@@ -11,7 +11,7 @@
 #define NOMAL_ENEMY_MAP_COLLISION_OFFSET (0.10f)
 
 // 矩形判定の位置補正
-#define NOMAL_ENEMY_BOX_COLLISION_OFFSET_X (10)
+#define NOMAL_ENEMY_BOX_COLLISION_OFFSET_X (15)
 #define NOMAL_ENEMY_BOX_COLLISION_OFFSET_Y (15)
 // 矩形判定のサイズ
 #define NOMAL_ENEMY_BOX_COLLISION_WIDTH (45)
@@ -208,4 +208,9 @@ void CalcBoxCollision(NomalEnemyData nomalenemy, float& x, float& y, float& w, f
 	y = nomalenemy.pos.y + nomalenemy.boxCollision.posY;
 	w = nomalenemy.boxCollision.width;
 	h = nomalenemy.boxCollision.height;
+}
+
+void NomalEnemyHitPlayer()
+{
+	g_NomalEnemyData.active = false;
 }

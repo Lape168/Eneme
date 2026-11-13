@@ -13,7 +13,11 @@ struct PlayerData
 	bool active;								// 生存フラグ
 	bool isTurn;								// 左を向いているか
 	bool isAir;									// 空中にいるか
+	bool isAtk;									// 銃を撃ったか
+	bool isFire;
 	int bulletInterval;							// 銃のインターバル
+	int height;									// 縦幅
+	int width;									// 横幅
 	VECTOR pos;									// 座標
 	VECTOR move;								// 移動量
 	BoxCollision boxCollision;					// 矩形当たり判定
@@ -60,3 +64,5 @@ PlayerData* GetPlayer();
 // 当たり判定
 void PlayerHitNormalBlockX(MapChipData mapChipData);
 void PlayerHitNormalBlockY(MapChipData mapChipData);
+
+void PlayerHitEnemy();

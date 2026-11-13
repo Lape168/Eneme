@@ -8,9 +8,6 @@
 #include "../../Enemy/EnemyManager.h"
 
 
-// 背景のスピード
-#define BACK_GROUND_SPEED (-1.5f)
-
 void InitPlayScene()
 {
 	// プレイヤー初期化
