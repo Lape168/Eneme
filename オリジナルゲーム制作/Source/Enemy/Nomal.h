@@ -21,3 +21,5 @@ NomalEnemyData* GetNomalEnemy();
 // “–‚½‚è”»’è
 void NomalEnemyHitNormalBlockX(MapChipData mapChipData);
 void NomalEnemyHitNormalBlockY(MapChipData mapChipData);
+
+void BulletHitEnemy();

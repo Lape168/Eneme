@@ -3,6 +3,8 @@
 #include "../Player/Player.h"
 #include "../Enemy/EnemyManager.h"
 #include "../Enemy/Nomal.h"
+#include "../Bullet/BulletManager.h"
+#include "../Bullet/StraightBullet.h"
 #include "../Map/Block.h"
 #include "../Map//MapManager.h"
 #include <math.h>
@@ -149,6 +151,33 @@ void CheckPlayerHitEnemy()
 	}
 }
 
+void CheckPlayerBulletHitEnemy()
+{
+	StraightBulletData* bullet = GetStraightBullet();
+	NomalEnemyData* nomalenemy = GetNomalEnemy();
+
+	float bulletleft = bullet->pos.x;
+	float bulletright = bullet->pos.x + bullet->BoxCollison.height;
+	float bullettop = bullet->pos.y;
+	float bulletbottom = bullet->pos.y + bullet->BoxCollison.width;
+
+	float nomalenemyleft = nomalenemy->pos.x;
+	float nomalenemyright = nomalenemy->pos.x + nomalenemy->boxCollision.height;
+	float nomalenemytop = nomalenemy->pos.y;
+	float nomalenemybottom = nomalenemy->pos.y + nomalenemy->boxCollision.width;
+
+	if (bullet->active == true)
+	{
+		if (bulletright > nomalenemyleft && bulletleft < nomalenemyright)
+		{
+			if (bulletbottom > nomalenemytop && bullettop < nomalenemybottom)
+			{
+
+			}
+		}
+	}
+}
+
 void CheckCollision()
 {
 	// プレイヤーとマップの当たり判定
@@ -157,4 +186,6 @@ void CheckCollision()
 	CheckMapNomalEnemyCollision();
 	//敵とプレイヤーの当たり判定
 	CheckPlayerHitEnemy();
+	//プレイヤーの撃った弾と敵の当たり判定
+	CheckPlayerBulletHitEnemy();
 }

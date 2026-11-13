@@ -1,4 +1,5 @@
 #pragma once
+#include "DxLib.h"
 #include "BulletParameter.h"
 
 // íeëSëÃÇÃèàóù
@@ -10,4 +11,4 @@ void DrawBullet();
 void FinBullet();
 
 // íeî≠éÀ
-void RequestFireBullet(StraightBulletType type, int life, float posX, float posY, float moveX, float moveY, float radius, BulletCollisionTag tag);
+void RequestFireBullet(StraightBulletType type, int life, float posX, float posY, float moveX, float moveY, BoxCollision boxcollision, BulletCollisionTag tag);

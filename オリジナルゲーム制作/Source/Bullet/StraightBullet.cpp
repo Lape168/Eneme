@@ -2,6 +2,13 @@
 #include "StraightBullet.h"
 #include "../Player/Player.h"
 
+// 矩形判定の位置補正
+#define STRAIGHT_BULLET_COLLISION_OFFSET_X (0)
+#define STRAIGHT_BULLET_COLLISION_OFFSET_Y (0)
+// 矩形判定のサイズ
+#define STRAIGHT_BULLET_BOX_COLLISION_WIDTH (5)
+#define STRAIGHT_BULLET_BOX_COLLISION_HEIGHT (5)
+
 StraightBulletData g_StraightBulletData[STRAIGHT_BULLET_MAX] = {0};
 
 int g_BulletHandle[STRAIGHT_BULLET_MAX] = {0};
@@ -14,11 +21,10 @@ void InitStraightBullet()
 	{
 		bullet->handle = 0;
 		bullet->life = 0;
-		bullet->posX = 0.0f;
-		bullet->posY = 0.0f;
-		bullet->moveX = 0.0f;
-		bullet->moveY = 0.0f;
-		bullet->radius = 0.0f;
+		bullet->pos.x = 0.0f;
+		bullet->pos.y = 0.0f;
+		bullet->move.x = 0.0f;
+		bullet->move.y = 0.0f;
 		bullet->active = false;
 	}
 
@@ -29,11 +35,19 @@ void InitStraightBullet()
 
 }
 
+void StartStraightBullet()
+{
+	g_StraightBulletData->BoxCollison.posX = STRAIGHT_BULLET_COLLISION_OFFSET_X;
+	g_StraightBulletData->BoxCollison.posY = STRAIGHT_BULLET_COLLISION_OFFSET_Y;
+	g_StraightBulletData->BoxCollison.height = STRAIGHT_BULLET_BOX_COLLISION_WIDTH;
+	g_StraightBulletData->BoxCollison.width = STRAIGHT_BULLET_BOX_COLLISION_HEIGHT;
+}
+
 void LoadStraightBullet()
 {
 	// プレイヤー通常弾
 	int handle = 0;
-	handle = LoadGraph("Data/Bullet/Bullet2.png");
+	handle = LoadGraph("Data/Bullet/Bullet.png");
 	g_BulletHandle[STRAIGHT_BULLET_TYPE_PLAYER] = handle;
 }
 
@@ -61,8 +75,8 @@ void UpdateStraightBullet()
 		if (!bullet->active)continue;
 
 		// 移動
-		bullet->posX += bullet->moveX;
-		bullet->posY += bullet->moveY;
+		bullet->pos.x += bullet->move.x;
+		bullet->pos.y += bullet->move.y;
 
 		// 寿命処理
 		if (bullet->life <= 0)
@@ -82,7 +96,7 @@ void DrawStraightBullet()
 		// 生きている弾だけ描画する
 		if (!bullet->active) continue;
 
-		DrawGraph((int)bullet->posX, (int)bullet->posY, bullet->handle, TRUE);
+		DrawGraph((int)bullet->pos.x, (int)bullet->pos.y, bullet->handle, TRUE);
 	}
 }
 
@@ -95,7 +109,7 @@ void FinStraightBullet()
 	}
 }
 
-void FireStraightBullet(StraightBulletType type, int life, float posX, float posY, float moveX, float moveY, float radius, BulletCollisionTag tag)
+void FireStraightBullet(StraightBulletType type, int life, float posX, float posY, float moveX, float moveY, BoxCollision boxcollision, BulletCollisionTag tag)
 {
 	// 処理高速化のためポインタを使う
 	StraightBulletData* bullet = g_StraightBulletData;
@@ -114,15 +128,20 @@ void FireStraightBullet(StraightBulletType type, int life, float posX, float pos
 			bullet->handle = g_BulletHandle[type];
 
 			// 座標設定
-			bullet->posX = posX;
-			bullet->posY = posY;
+			bullet->pos.x = posX;
+			bullet->pos.y = posY;
 
 			// 移動量設定
-			bullet->moveX = moveX;
-			bullet->moveY = moveY;
+			bullet->move.x = moveX;
+			bullet->move.y = moveY;
 
 			// 半径(当たり判定)
-			bullet->radius = radius;
+//			bullet->radius = radius;
+
+			bullet->BoxCollison.height = boxcollision.height;
+			bullet->BoxCollison.width = boxcollision.width;
+			bullet->BoxCollison.posX = boxcollision.posX;
+			bullet->BoxCollison.posY = boxcollision.posY;
 
 			//当たり判定のタグ
 			bullet->tag = tag;

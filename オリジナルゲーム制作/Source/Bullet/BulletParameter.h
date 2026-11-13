@@ -1,4 +1,6 @@
 #pragma once
+#include "DxLib.h"
+#include "../Collision/Collision.h"
 
 #define STRAIGHT_BULLET_MAX (1024)
 #define HOMING_BULLET_MAX (1024)
@@ -30,13 +32,12 @@ struct StraightBulletData
 {
 	int handle;
 	int life;
-	float posX;
-	float posY;
-	float moveX;
-	float moveY;
-	float width;
-	float height;
-	float radius;
+	VECTOR pos;
+	VECTOR move;
+	//float width;
+	//float height;
+	//float radius;
 	bool active;
 	BulletCollisionTag tag;
+	BoxCollision BoxCollison;
 };

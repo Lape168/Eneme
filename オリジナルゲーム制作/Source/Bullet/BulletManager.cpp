@@ -1,3 +1,4 @@
+#include "DxLib.h"
 #include "BulletManager.h"
 #include "StraightBullet.h"
 
@@ -44,8 +45,8 @@ void FinBullet()
 }
 
 
-void RequestFireBullet(StraightBulletType type, int life, float posX, float posY, float moveX, float moveY, float radius, BulletCollisionTag tag)
+void RequestFireBullet(StraightBulletType type, int life, float posX, float posY, float moveX, float moveY, BoxCollision boxcollision, BulletCollisionTag tag)
 {
 	//íºê¸íeî≠éÀ
-	FireStraightBullet(type, life, posX, posY, moveX, moveY, radius, tag);
+	FireStraightBullet(type, life, posX, posY, moveX, moveY, boxcollision, tag);
 }

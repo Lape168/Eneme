@@ -200,6 +200,7 @@ void NomalEnemyHitNormalBlockY(MapChipData mapChipData)
 	}
 }
 
+
 void CalcBoxCollision(NomalEnemyData nomalenemy, float& x, float& y, float& w, float& h)
 {
 	x = nomalenemy.isTurn ?
@@ -213,4 +214,10 @@ void CalcBoxCollision(NomalEnemyData nomalenemy, float& x, float& y, float& w, f
 void NomalEnemyHitPlayer()
 {
 	g_NomalEnemyData.active = false;
+}
+
+void BulletHitEnemy()
+{
+	g_NomalEnemyData.move.x = 0;
+	g_NomalEnemyData.move.y = 0;
 }
