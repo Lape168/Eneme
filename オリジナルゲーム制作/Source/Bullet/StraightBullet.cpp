@@ -37,8 +37,6 @@ void InitStraightBullet()
 
 void StartStraightBullet()
 {
-	g_StraightBulletData->BoxCollison.posX = STRAIGHT_BULLET_COLLISION_OFFSET_X;
-	g_StraightBulletData->BoxCollison.posY = STRAIGHT_BULLET_COLLISION_OFFSET_Y;
 	g_StraightBulletData->BoxCollison.height = STRAIGHT_BULLET_BOX_COLLISION_WIDTH;
 	g_StraightBulletData->BoxCollison.width = STRAIGHT_BULLET_BOX_COLLISION_HEIGHT;
 }
@@ -140,8 +138,6 @@ void FireStraightBullet(StraightBulletType type, int life, float posX, float pos
 
 			bullet->BoxCollison.height = boxcollision.height;
 			bullet->BoxCollison.width = boxcollision.width;
-			bullet->BoxCollison.posX = boxcollision.posX;
-			bullet->BoxCollison.posY = boxcollision.posY;
 
 			//“–‚½‚è”»’è‚Ìƒ^ƒO
 			bullet->tag = tag;

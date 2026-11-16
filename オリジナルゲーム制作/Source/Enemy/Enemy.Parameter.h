@@ -14,7 +14,10 @@ struct NomalEnemyData
 	bool active;
 	bool isTurn;
 	bool isAir;
+	bool frozen;
 	int handle;
+	float frozenTime;
+	float flozenInterval;
 	VECTOR pos;
 	VECTOR move;
 	BoxCollision boxCollision;

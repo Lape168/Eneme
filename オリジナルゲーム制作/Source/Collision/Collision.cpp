@@ -138,7 +138,7 @@ void CheckPlayerHitEnemy()
 	float nomalenemybottom = nomalenemy->pos.y + nomalenemy->boxCollision.width;
 
 	if (player->active == true)
-	{	
+	{
 		// 左右の辺がめり込んでいるかチェック
 		if (playerright > nomalenemyleft && playerleft < nomalenemyright)
 		{
@@ -156,6 +156,11 @@ void CheckPlayerBulletHitEnemy()
 	StraightBulletData* bullet = GetStraightBullet();
 	NomalEnemyData* nomalenemy = GetNomalEnemy();
 
+	for (int i = 0; STRAIGHT_BULLET_MAX < i; i++, bullet++)
+	{
+
+	}
+
 	float bulletleft = bullet->pos.x;
 	float bulletright = bullet->pos.x + bullet->BoxCollison.height;
 	float bullettop = bullet->pos.y;
@@ -172,7 +177,7 @@ void CheckPlayerBulletHitEnemy()
 		{
 			if (bulletbottom > nomalenemytop && bullettop < nomalenemybottom)
 			{
-
+				BulletHitEnemy();
 			}
 		}
 	}

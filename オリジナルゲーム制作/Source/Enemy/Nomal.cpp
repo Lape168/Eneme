@@ -9,13 +9,14 @@
 #define NOMAL_ENEMY_DEFAULT_POS_X		(800.0f)
 #define NOMAL_ENEMY_DEFAULT_POS_Y		(100.0f)
 #define NOMAL_ENEMY_MAP_COLLISION_OFFSET (0.10f)
+#define NOMAL_ENEMY_FROZEN_TIME (240)
 
 // 矩形判定の位置補正
 #define NOMAL_ENEMY_BOX_COLLISION_OFFSET_X (15)
 #define NOMAL_ENEMY_BOX_COLLISION_OFFSET_Y (15)
 // 矩形判定のサイズ
-#define NOMAL_ENEMY_BOX_COLLISION_WIDTH (45)
-#define NOMAL_ENEMY_BOX_COLLISION_HEIGHT (50)
+#define NOMAL_ENEMY_BOX_COLLISION_WIDTH (35)
+#define NOMAL_ENEMY_BOX_COLLISION_HEIGHT (65)
 
 // ジャンプ力
 #define NOMAL_ENEMY_JUMP_POWER (10.0f)
@@ -36,13 +37,12 @@ void InitNomal()
 	g_NomalEnemyData.pos.y = NOMAL_ENEMY_DEFAULT_POS_Y;
 	g_NomalEnemyData.move.x = 0;
 	g_NomalEnemyData.move.y = 0;
+	g_NomalEnemyData.frozenTime = 0;
 }
 
 void StartNomal()
 {
 	// 矩形判定設定
-	g_NomalEnemyData.boxCollision.posX = NOMAL_ENEMY_BOX_COLLISION_OFFSET_X;
-	g_NomalEnemyData.boxCollision.posY = NOMAL_ENEMY_BOX_COLLISION_OFFSET_Y;
 	g_NomalEnemyData.boxCollision.width = NOMAL_ENEMY_BOX_COLLISION_WIDTH;
 	g_NomalEnemyData.boxCollision.height = NOMAL_ENEMY_BOX_COLLISION_HEIGHT;
 }
@@ -57,22 +57,51 @@ void StepNomal()
 {
 	g_NomalEnemyData.move.x = 0.0f;
 
-	g_NomalEnemyData.move.y += NOMAL_ENEMY_GRAVITY;
+	if (!g_NomalEnemyData.frozen)
+	{
+		g_NomalEnemyData.move.y += NOMAL_ENEMY_GRAVITY;
+	}
+	else
+	{
+		g_NomalEnemyData.move.y = 0.0f;
+	}
 
 	g_PrevNomalEnemyData = g_NomalEnemyData;
 
 	if (IsInputKey(KEY_LEFT))
 	{
-		g_NomalEnemyData.move.x = -NOMAL_ENEMY_MOVE_SPEED / 2;
+		if (!g_NomalEnemyData.frozen)
+		{
+			g_NomalEnemyData.move.x = -NOMAL_ENEMY_MOVE_SPEED / 2;
+		}
+		else
+		{
+			g_NomalEnemyData.move.x = 0;
+		}
 	}
 	if (IsInputKey(KEY_RIGHT))
 	{
-		g_NomalEnemyData.move.x = NOMAL_ENEMY_MOVE_SPEED / 2;
+		if (!g_NomalEnemyData.frozen)
+		{
+			g_NomalEnemyData.move.x = NOMAL_ENEMY_MOVE_SPEED / 2;
+		}
+		else
+		{
+			g_NomalEnemyData.move.x = 0;
+		}
 	}
 	if (IsInputKey(KEY_SPACE) && !g_NomalEnemyData.isAir)
 	{
-		g_NomalEnemyData.move.y -= NOMAL_ENEMY_JUMP_POWER;
+		if (!g_NomalEnemyData.frozen)
+		{
+			g_NomalEnemyData.move.y -= NOMAL_ENEMY_JUMP_POWER;
+		}
+		else
+		{
+			g_NomalEnemyData.move.y = 0;
+		}
 	}
+
 
 	PlayerData* player = GetPlayer();
 	float dir = player->pos.x - g_NomalEnemyData.pos.x;
@@ -83,13 +112,32 @@ void StepNomal()
 
 	if (dir > 0)
 	{
-		g_NomalEnemyData.move.x += min;
+		if (!g_NomalEnemyData.frozen)
+		{
+			g_NomalEnemyData.move.x += min;
+		}
+		else
+		{
+			g_NomalEnemyData.move.x += 0;
+		}
 	}
 	else if (dir < 0)
 	{
-		g_NomalEnemyData.move.x -= min;
+		if (!g_NomalEnemyData.frozen)
+		{
+			g_NomalEnemyData.move.x -= min;
+		}
+		else
+		{
+			g_NomalEnemyData.move.x -= 0;
+		}
+		
 	}
 
+	if (g_NomalEnemyData.frozen == true)
+	{
+		g_NomalEnemyData.frozenTime--;
+	}
 }
 
 void UpdateNomal()
@@ -100,6 +148,11 @@ void UpdateNomal()
 		g_NomalEnemyData.isAir = true;
 	}
 
+	if (g_NomalEnemyData.frozenTime <= 0)
+	{
+		g_NomalEnemyData.frozen = false;
+	}
+	
 	g_NomalEnemyData.pos.x += g_NomalEnemyData.move.x;
 	g_NomalEnemyData.pos.y += g_NomalEnemyData.move.y;
 }
@@ -203,10 +256,8 @@ void NomalEnemyHitNormalBlockY(MapChipData mapChipData)
 
 void CalcBoxCollision(NomalEnemyData nomalenemy, float& x, float& y, float& w, float& h)
 {
-	x = nomalenemy.isTurn ?
-		nomalenemy.pos.x + NOMAL_ENEMY_WIDTH - nomalenemy.boxCollision.posX - nomalenemy.boxCollision.width :
-		nomalenemy.pos.x + nomalenemy.boxCollision.posX;
-	y = nomalenemy.pos.y + nomalenemy.boxCollision.posY;
+	x = nomalenemy.pos.x;
+	y = nomalenemy.pos.y;
 	w = nomalenemy.boxCollision.width;
 	h = nomalenemy.boxCollision.height;
 }
@@ -218,6 +269,9 @@ void NomalEnemyHitPlayer()
 
 void BulletHitEnemy()
 {
-	g_NomalEnemyData.move.x = 0;
-	g_NomalEnemyData.move.y = 0;
+	if (g_NomalEnemyData.frozenTime >= 0)
+	{
+		g_NomalEnemyData.frozen = true;
+	}
+	g_NomalEnemyData.frozenTime = NOMAL_ENEMY_FROZEN_TIME;
 }

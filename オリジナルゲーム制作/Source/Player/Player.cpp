@@ -10,12 +10,9 @@
 #define PLAYER_MOVE_SPEED			(6.0f)
 #define PLAYER_MAP_COLLISION_OFFSET (0.10f)
 
-// 矩形判定の位置補正
-#define PLAYER_BOX_COLLISION_OFFSET_X (25)
-#define PLAYER_BOX_COLLISION_OFFSET_Y (15)
 // 矩形判定のサイズ
-#define PLAYER_BOX_COLLISION_WIDTH (25)
-#define PLAYER_BOX_COLLISION_HEIGHT (50)
+#define PLAYER_BOX_COLLISION_WIDTH (50)
+#define PLAYER_BOX_COLLISION_HEIGHT (65)
 
 //弾
 #define PLAYER_BULLET_SPEED_X	(15.0f)
@@ -26,11 +23,10 @@
 #define PLAYER_BULLET_OFFSET_L_X	(12.0f)
 #define PLAYER_BULLET_OFFSET_L_Y	(21.0f)
 #define PLAYER_BULLET_INTERVAL  (20)
+
 //弾の矩形判定
-#define PLAYER_BULLET_COLLISION_OFFSET_X (2)
-#define PLAYER_BULLET_COLLISION_OFFSET_Y (2)
-#define PLAYER_BULLET_BOX_COLLISION_WIDTH (5)
-#define PLATER_BULLET_BOX_COLLISION_HEIGHT (5)
+#define PLAYER_BULLET_BOX_COLLISION_WIDTH (20)
+#define PLATER_BULLET_BOX_COLLISION_HEIGHT (20)
 
 // ジャンプ力
 #define PLAYER_JUMP_POWER (10.0f)
@@ -76,8 +72,6 @@ void StartPlayer()
 
 
 	// 矩形判定設定
-	g_PlayerData.boxCollision.posX = PLAYER_BOX_COLLISION_OFFSET_X;
-	g_PlayerData.boxCollision.posY = PLAYER_BOX_COLLISION_OFFSET_Y;
 	g_PlayerData.boxCollision.width = PLAYER_BOX_COLLISION_WIDTH;
 	g_PlayerData.boxCollision.height = PLAYER_BOX_COLLISION_HEIGHT;
 }
@@ -125,23 +119,27 @@ void StepPlayer()
 		float fireRY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_R_Y;
 		float fireLX = g_PlayerData.pos.x + PLAYER_BULLET_OFFSET_L_X;
 		float fireLY = g_PlayerData.pos.y + PLAYER_BULLET_OFFSET_L_Y;
+
+		BoxCollision bulletbox = { 0 };
+
+		bulletbox.width = PLAYER_BULLET_BOX_COLLISION_WIDTH;
+		bulletbox.height = PLATER_BULLET_BOX_COLLISION_HEIGHT;
+
 		if (g_PlayerData.bulletInterval <= 0)
 		{
 			if (player->active)
 			{
 				if (g_PlayerData.isTurn == true)
 				{
-				//	RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireLX, fireLY, -PLAYER_BULLET_SPEED_X,
-				//		PLAYER_BULLET_SPEED_Y, PLAYER_BULLET_COLLISION_OFFSET_X, PLAYER_BULLET_COLLISION_OFFSET_Y ,
-				//		PLAYER_BULLET_BOX_COLLISION_WIDTH, PLATER_BULLET_BOX_COLLISION_HEIGHT,BULLET_COLLISION_TAG_PLAYER);
-				//	g_PlayerData.isFire = true;
-				//}
-				//if (!g_PlayerData.isTurn)
-				//{
-				//	RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, PLAYER_BULLET_SPEED_X, 
-				//		PLAYER_BULLET_SPEED_Y,PLAYER_BULLET_COLLISION_OFFSET_X, PLAYER_BULLET_COLLISION_OFFSET_Y,
-				//		PLAYER_BULLET_BOX_COLLISION_WIDTH, PLATER_BULLET_BOX_COLLISION_HEIGHT, BULLET_COLLISION_TAG_PLAYER);
-				//	g_PlayerData.isFire = true;
+					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, -PLAYER_BULLET_SPEED_X,
+						PLAYER_BULLET_SPEED_Y, bulletbox, BULLET_COLLISION_TAG_PLAYER);
+					g_PlayerData.isFire = true;
+				}
+				if (!g_PlayerData.isTurn)
+				{
+					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, PLAYER_BULLET_SPEED_X,
+										PLAYER_BULLET_SPEED_Y,bulletbox, BULLET_COLLISION_TAG_PLAYER);
+					g_PlayerData.isFire = true;
 				}
 			}
 			// インターバル設定
@@ -353,10 +351,8 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 
 void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
 {
-	x = player.isTurn ?
-		player.pos.x + PLAYER_WIDTH - player.boxCollision.posX - player.boxCollision.width :
-		player.pos.x + player.boxCollision.posX;
-	y = player.pos.y + player.boxCollision.posY;
+	x = player.pos.x;
+	y = player.pos.y;
 	w = player.boxCollision.width;
 	h = player.boxCollision.height;
 }
