@@ -136,61 +136,95 @@ void CheckPlayerHitEnemy()
 	float nomalenemyright = nomalenemy->pos.x + nomalenemy->boxCollision.height;
 	float nomalenemytop = nomalenemy->pos.y;
 	float nomalenemybottom = nomalenemy->pos.y + nomalenemy->boxCollision.width;
-
-	if (player->active == true)
+	if (!nomalenemy->frozen)
 	{
-		// 左右の辺がめり込んでいるかチェック
-		if (playerright > nomalenemyleft && playerleft < nomalenemyright)
+		if (player->active == true)
 		{
-			// 上下の片がめり込んでいるかチェック
-			if (playerbottom > nomalenemytop && playertop < nomalenemybottom)
+			// 左右の辺がめり込んでいるかチェック
+			if (playerright > nomalenemyleft && playerleft < nomalenemyright)
 			{
-				PlayerHitEnemy();
+				// 上下の片がめり込んでいるかチェック
+				if (playerbottom > nomalenemytop && playertop < nomalenemybottom)
+				{
+					PlayerHitEnemy();
+				}
 			}
 		}
 	}
+	else
+	{
+		//計算式違う
+		//if (CheckSquareSquare(playerleft, playertop, playerbottom, playerright,
+		//	nomalenemyleft, nomalenemytop, nomalenemybottom, nomalenemyright))
+		//{
+		//	// 左からあたったか
+		//	if (player->move.x > 0.0f)
+		//	{
+		//		// 左に押し出す
+		//		playertop -= (playerleft + playerbottom) - nomalenemybottom;
+		//	}
+		//	// 右からあたったか
+		//	else if (player->move.x < 0.0f)
+		//	{
+		//		// 右に押し出す
+		//		playertop += (nomalenemyleft + nomalenemybottom) - playerleft;
+		//	}
+		//}
+
+		//if (CheckSquareSquare(playerleft, playertop, playerbottom, playerright,
+		//	nomalenemyleft, nomalenemytop, nomalenemybottom, nomalenemyright))
+		//{
+		//	// 上からあたったか
+		//	if (player->move.x > 0.0f)
+		//	{
+		//		// 上に押し出す
+		//		playertop -= (playertop + playerright) - nomalenemyright;
+		//	}
+		//	// 下からあたったか
+		//	else if (player->move.x < 0.0f)
+		//	{
+		//		// 下に押し出す
+		//		playertop += (nomalenemytop + nomalenemyright) - playertop;
+		//	}
+		//}
+	}
 }
 
-void CheckPlayerBulletHitEnemy()
-{
-	StraightBulletData* bullet = GetStraightBullet();
-	NomalEnemyData* nomalenemy = GetNomalEnemy();
-
-	for (int i = 0; STRAIGHT_BULLET_MAX < i; i++, bullet++)
+	void CheckPlayerBulletHitEnemy()
 	{
+		StraightBulletData* bullet = GetStraightBullet();
+		NomalEnemyData* nomalenemy = GetNomalEnemy();
 
-	}
+		float bulletleft = bullet->pos.x;
+		float bulletright = bullet->pos.x + bullet->BoxCollison.height;
+		float bullettop = bullet->pos.y;
+		float bulletbottom = bullet->pos.y + bullet->BoxCollison.width;
 
-	float bulletleft = bullet->pos.x;
-	float bulletright = bullet->pos.x + bullet->BoxCollison.height;
-	float bullettop = bullet->pos.y;
-	float bulletbottom = bullet->pos.y + bullet->BoxCollison.width;
+		float nomalenemyleft = nomalenemy->pos.x;
+		float nomalenemyright = nomalenemy->pos.x + nomalenemy->boxCollision.height;
+		float nomalenemytop = nomalenemy->pos.y;
+		float nomalenemybottom = nomalenemy->pos.y + nomalenemy->boxCollision.width;
 
-	float nomalenemyleft = nomalenemy->pos.x;
-	float nomalenemyright = nomalenemy->pos.x + nomalenemy->boxCollision.height;
-	float nomalenemytop = nomalenemy->pos.y;
-	float nomalenemybottom = nomalenemy->pos.y + nomalenemy->boxCollision.width;
-
-	if (bullet->active == true)
-	{
-		if (bulletright > nomalenemyleft && bulletleft < nomalenemyright)
+		if (bullet->active == true)
 		{
-			if (bulletbottom > nomalenemytop && bullettop < nomalenemybottom)
+			if (bulletright > nomalenemyleft && bulletleft < nomalenemyright)
 			{
-				BulletHitEnemy();
+				if (bulletbottom > nomalenemytop && bullettop < nomalenemybottom)
+				{
+					BulletHitEnemy();
+				}
 			}
 		}
 	}
-}
 
-void CheckCollision()
-{
-	// プレイヤーとマップの当たり判定
-	ChceckMapPlayerCollision();
-	//通常敵とマップの当たり判定
-	CheckMapNomalEnemyCollision();
-	//敵とプレイヤーの当たり判定
-	CheckPlayerHitEnemy();
-	//プレイヤーの撃った弾と敵の当たり判定
-	CheckPlayerBulletHitEnemy();
-}
+	void CheckCollision()
+	{
+		// プレイヤーとマップの当たり判定
+		ChceckMapPlayerCollision();
+		//通常敵とマップの当たり判定
+		CheckMapNomalEnemyCollision();
+		//敵とプレイヤーの当たり判定
+		CheckPlayerHitEnemy();
+		//プレイヤーの撃った弾と敵の当たり判定
+		CheckPlayerBulletHitEnemy();
+	}

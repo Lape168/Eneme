@@ -15,14 +15,14 @@
 #define NOMAL_ENEMY_BOX_COLLISION_OFFSET_X (15)
 #define NOMAL_ENEMY_BOX_COLLISION_OFFSET_Y (15)
 // 矩形判定のサイズ
-#define NOMAL_ENEMY_BOX_COLLISION_WIDTH (35)
-#define NOMAL_ENEMY_BOX_COLLISION_HEIGHT (65)
+#define NOMAL_ENEMY_BOX_COLLISION_WIDTH (45)
+#define NOMAL_ENEMY_BOX_COLLISION_HEIGHT (50)
 
 // ジャンプ力
 #define NOMAL_ENEMY_JUMP_POWER (10.0f)
 
 // 重力
-#define NOMAL_ENEMY_GRAVITY (0.25f)
+#define NOMAL_ENEMY_GRAVITY (0.55f)
 
 void CalcBoxCollision(NomalEnemyData nomalenemy, float& x, float& y, float& w, float& h);
 
@@ -49,14 +49,18 @@ void StartNomal()
 
 void LoadNomal()
 {
+	//画像
 	g_EnemyMotion.walkR = LoadGraph("Data/Enemy/EnemyR.png");
 	g_EnemyMotion.walkL = LoadGraph("Data/Enemy/EnemyL.png");
+	g_EnemyMotion.frozenR = LoadGraph("Data/Enemy/EnemyFrozenR.png");
+	g_EnemyMotion.frozenL = LoadGraph("Data/Enemy/EnemyFrozenL.png");
 }
 
 void StepNomal()
 {
 	g_NomalEnemyData.move.x = 0.0f;
 
+	//重力
 	if (!g_NomalEnemyData.frozen)
 	{
 		g_NomalEnemyData.move.y += NOMAL_ENEMY_GRAVITY;
@@ -68,6 +72,7 @@ void StepNomal()
 
 	g_PrevNomalEnemyData = g_NomalEnemyData;
 
+	//プレイヤーと同じ動きをさせる処理 + 凍っていたら動きを0に
 	if (IsInputKey(KEY_LEFT))
 	{
 		if (!g_NomalEnemyData.frozen)
@@ -110,6 +115,7 @@ void StepNomal()
 		fabs(dir) :
 		NOMAL_ENEMY_MOVE_SPEED / 5;
 
+	//自動追尾
 	if (dir > 0)
 	{
 		if (!g_NomalEnemyData.frozen)
@@ -134,6 +140,7 @@ void StepNomal()
 		
 	}
 
+	//凍っている時間の処理
 	if (g_NomalEnemyData.frozen == true)
 	{
 		g_NomalEnemyData.frozenTime--;
@@ -153,6 +160,7 @@ void UpdateNomal()
 		g_NomalEnemyData.frozen = false;
 	}
 	
+	//移動処理
 	g_NomalEnemyData.pos.x += g_NomalEnemyData.move.x;
 	g_NomalEnemyData.pos.y += g_NomalEnemyData.move.y;
 }
@@ -160,13 +168,30 @@ void UpdateNomal()
 void DrawNomal()
 {
 	PlayerData* player = GetPlayer();
+
+	//プレイヤーより右にいると左を向く
 	if (player->pos.x < g_NomalEnemyData.pos.x)
 	{
-		DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y, g_EnemyMotion.walkL, TRUE);
+		if (g_NomalEnemyData.frozen == true) //凍っている
+		{
+			DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y - 20, g_EnemyMotion.frozenL, TRUE);
+		}
+		else //凍っていない
+		{
+			DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y - 20, g_EnemyMotion.walkL, TRUE);
+		}
 	}
+	//プレイヤーより左にいると右を向く
 	if (player->pos.x >= g_NomalEnemyData.pos.x)
 	{
-		DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y, g_EnemyMotion.walkR, TRUE);
+		if (g_NomalEnemyData.frozen == true) //凍っている
+		{
+			DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y - 20, g_EnemyMotion.frozenR, TRUE);
+		}
+		else //凍っていない
+		{
+			DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y - 20, g_EnemyMotion.walkR, TRUE);
+		}
 	}
 }
 
@@ -256,6 +281,7 @@ void NomalEnemyHitNormalBlockY(MapChipData mapChipData)
 
 void CalcBoxCollision(NomalEnemyData nomalenemy, float& x, float& y, float& w, float& h)
 {
+	//矩形
 	x = nomalenemy.pos.x;
 	y = nomalenemy.pos.y;
 	w = nomalenemy.boxCollision.width;

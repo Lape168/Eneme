@@ -31,4 +31,6 @@ struct EnemyMotion
 	int walkL;									//左方向の移動
 	int jump_upL;								//左方向のジャンプの上り
 	int jump_fallL;								//左方向のジャンプの下り
+	int frozenR;								//右方向の凍ったとき
+	int frozenL;								//左方向の凍ったとき
 };

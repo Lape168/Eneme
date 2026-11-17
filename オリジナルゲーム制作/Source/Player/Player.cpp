@@ -12,17 +12,17 @@
 
 // ãÈå`îªíËÇÃÉTÉCÉY
 #define PLAYER_BOX_COLLISION_WIDTH (50)
-#define PLAYER_BOX_COLLISION_HEIGHT (65)
+#define PLAYER_BOX_COLLISION_HEIGHT (50)
 
 //íe
-#define PLAYER_BULLET_SPEED_X	(15.0f)
+#define PLAYER_BULLET_SPEED_X	(20.0f)
 #define PLAYER_BULLET_SPEED_Y	(0.0f)
-#define PLAYER_BULLET_LIFE		(60)
+#define PLAYER_BULLET_LIFE		(30)
 #define PLAYER_BULLET_OFFSET_R_X	(40.0f)
 #define PLAYER_BULLET_OFFSET_R_Y	(21.0f)
 #define PLAYER_BULLET_OFFSET_L_X	(12.0f)
 #define PLAYER_BULLET_OFFSET_L_Y	(21.0f)
-#define PLAYER_BULLET_INTERVAL  (20)
+#define PLAYER_BULLET_INTERVAL  (90)
 
 //íeÇÃãÈå`îªíË
 #define PLAYER_BULLET_BOX_COLLISION_WIDTH (20)
@@ -32,7 +32,7 @@
 #define PLAYER_JUMP_POWER (10.0f)
 
 // èdóÕ
-#define PLAYER_GRAVITY (0.3f)
+#define PLAYER_GRAVITY (0.4f)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -131,14 +131,14 @@ void StepPlayer()
 			{
 				if (g_PlayerData.isTurn == true)
 				{
-					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, -PLAYER_BULLET_SPEED_X,
+					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY - 15, -PLAYER_BULLET_SPEED_X,
 						PLAYER_BULLET_SPEED_Y, bulletbox, BULLET_COLLISION_TAG_PLAYER);
 					g_PlayerData.isFire = true;
 				}
 				if (!g_PlayerData.isTurn)
 				{
-					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY, PLAYER_BULLET_SPEED_X,
-										PLAYER_BULLET_SPEED_Y,bulletbox, BULLET_COLLISION_TAG_PLAYER);
+					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY - 15, PLAYER_BULLET_SPEED_X,
+						PLAYER_BULLET_SPEED_Y, bulletbox, BULLET_COLLISION_TAG_PLAYER);
 					g_PlayerData.isFire = true;
 				}
 			}
@@ -185,22 +185,22 @@ void DrawPlayer()
 			{
 				if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
 				{
-					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotL, TRUE); //çUåÇï\é¶
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.shotL, TRUE); //çUåÇï\é¶
 				}
 				else
 				{
-					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_upL, TRUE); //è„è∏ï\é¶
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.jump_upL, TRUE); //è„è∏ï\é¶
 				}
 			}
 			else //â∫ç~íÜ
 			{
 				if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
 				{
-					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotL, TRUE); //çUåÇï\é¶
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.shotL, TRUE); //çUåÇï\é¶
 				}
 				else
 				{
-					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_fallL, TRUE); //â∫ç~ï\é¶
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.jump_fallL, TRUE); //â∫ç~ï\é¶
 				}
 			}
 		}
@@ -208,11 +208,11 @@ void DrawPlayer()
 		{
 			if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
 			{
-				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotL, TRUE); //çUåÇï\é¶
+				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.shotL, TRUE); //çUåÇï\é¶
 			}
 			else
 			{
-				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.walkL, TRUE); //ï‡Ç´ï\é¶
+				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.walkL, TRUE); //ï‡Ç´ï\é¶
 			}
 		}
 	}
@@ -224,22 +224,22 @@ void DrawPlayer()
 			{
 				if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
 				{
-					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotR, TRUE); //çUåÇï\é¶
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.shotR, TRUE); //çUåÇï\é¶
 				}
 				else
 				{
-					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_upR, TRUE); //è„è∏ï\é¶
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.jump_upR, TRUE); //è„è∏ï\é¶
 				}
 			}
 			else //â∫ç~íÜ
 			{
 				if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
 				{
-					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotR, TRUE); //çUåÇï\é¶
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.shotR, TRUE); //çUåÇï\é¶
 				}
 				else
 				{
-					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.jump_fallR, TRUE); //â∫ç~ï\é¶
+					DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.jump_fallR, TRUE); //â∫ç~ï\é¶
 				}
 			}
 		}
@@ -247,11 +247,11 @@ void DrawPlayer()
 		{
 			if (g_PlayerData.isAtk == true) //çUåÇÇµÇΩèuä‘
 			{
-				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.shotR, TRUE); //çUåÇï\é¶
+				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.shotR, TRUE); //çUåÇï\é¶
 			}
 			else
 			{
-				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_MotionData.walkR, TRUE); //ï‡Ç´ï\é¶
+				DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y - 15, g_MotionData.walkR, TRUE); //ï‡Ç´ï\é¶
 			}
 		}
 	}
