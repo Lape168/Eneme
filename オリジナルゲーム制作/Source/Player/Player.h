@@ -7,6 +7,10 @@
 #define PLAYER_HEIGHT	(72.0f)
 #define PLAYER_RADIUS	(36.0f)
 
+// 矩形判定のサイズ
+#define PLAYER_BOX_COLLISION_WIDTH (50)
+#define PLAYER_BOX_COLLISION_HEIGHT (50)
+
 struct PlayerData
 {
 	int handle;									// 画像

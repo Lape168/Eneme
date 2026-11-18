@@ -4,19 +4,12 @@
 #include "../Player/Player.h"
 #include <math.h>
 
-
+//ノーマル敵関連
 #define NOMAL_ENEMY_MOVE_SPEED (5.5f)
 #define NOMAL_ENEMY_DEFAULT_POS_X		(800.0f)
 #define NOMAL_ENEMY_DEFAULT_POS_Y		(100.0f)
 #define NOMAL_ENEMY_MAP_COLLISION_OFFSET (0.10f)
-#define NOMAL_ENEMY_FROZEN_TIME (240)
-
-// 矩形判定の位置補正
-#define NOMAL_ENEMY_BOX_COLLISION_OFFSET_X (15)
-#define NOMAL_ENEMY_BOX_COLLISION_OFFSET_Y (15)
-// 矩形判定のサイズ
-#define NOMAL_ENEMY_BOX_COLLISION_WIDTH (45)
-#define NOMAL_ENEMY_BOX_COLLISION_HEIGHT (50)
+#define NOMAL_ENEMY_FROZEN_TIME (600)
 
 // ジャンプ力
 #define NOMAL_ENEMY_JUMP_POWER (10.0f)
@@ -95,7 +88,7 @@ void StepNomal()
 			g_NomalEnemyData.move.x = 0;
 		}
 	}
-	if (IsInputKey(KEY_SPACE) && !g_NomalEnemyData.isAir)
+	if (IsTriggerKey(KEY_SPACE) && !g_NomalEnemyData.isAir)
 	{
 		if (!g_NomalEnemyData.frozen)
 		{
@@ -137,7 +130,7 @@ void StepNomal()
 		{
 			g_NomalEnemyData.move.x -= 0;
 		}
-		
+
 	}
 
 	//凍っている時間の処理
@@ -159,7 +152,7 @@ void UpdateNomal()
 	{
 		g_NomalEnemyData.frozen = false;
 	}
-	
+
 	//移動処理
 	g_NomalEnemyData.pos.x += g_NomalEnemyData.move.x;
 	g_NomalEnemyData.pos.y += g_NomalEnemyData.move.y;

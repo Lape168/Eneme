@@ -8,6 +8,10 @@
 #define NOMAL_ENEMY_HEIGHT	(72.0f)
 #define NOMAL_ENEMY_RADIUS	(36.0f)
 
+// 矩形判定のサイズ
+constexpr auto NOMAL_ENEMY_BOX_COLLISION_WIDTH = (45);
+constexpr auto NOMAL_ENEMY_BOX_COLLISION_HEIGHT = (45);
+
 void InitNomal();
 void StartNomal();
 void LoadNomal();

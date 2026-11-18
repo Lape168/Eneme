@@ -10,19 +10,15 @@
 #define PLAYER_MOVE_SPEED			(6.0f)
 #define PLAYER_MAP_COLLISION_OFFSET (0.10f)
 
-// 矩形判定のサイズ
-#define PLAYER_BOX_COLLISION_WIDTH (50)
-#define PLAYER_BOX_COLLISION_HEIGHT (50)
-
 //弾
 #define PLAYER_BULLET_SPEED_X	(20.0f)
 #define PLAYER_BULLET_SPEED_Y	(0.0f)
-#define PLAYER_BULLET_LIFE		(30)
+#define PLAYER_BULLET_LIFE		(20)
 #define PLAYER_BULLET_OFFSET_R_X	(40.0f)
 #define PLAYER_BULLET_OFFSET_R_Y	(21.0f)
 #define PLAYER_BULLET_OFFSET_L_X	(12.0f)
 #define PLAYER_BULLET_OFFSET_L_Y	(21.0f)
-#define PLAYER_BULLET_INTERVAL  (90)
+#define PLAYER_BULLET_INTERVAL  (60)
 
 //弾の矩形判定
 #define PLAYER_BULLET_BOX_COLLISION_WIDTH (20)
@@ -90,6 +86,12 @@ void StepPlayer()
 	// Y移動量に重力を反映
 	g_PlayerData.move.y += PLAYER_GRAVITY;
 
+	//これ以上重力を増やさせない
+	if (g_PlayerData.move.y > 30.0f)
+	{
+		g_PlayerData.move.y = 0;
+	}
+
 	//弾のインターバルの時間を減らす
 	if (g_PlayerData.bulletInterval > 0)
 	{
@@ -148,7 +150,7 @@ void StepPlayer()
 
 	}
 	//スペース入力
-	if (IsInputKey(KEY_SPACE) && !g_PlayerData.isAir)
+	if (IsTriggerKey(KEY_SPACE) && !g_PlayerData.isAir)
 	{
 		g_PlayerData.move.y = -PLAYER_JUMP_POWER;
 	}
