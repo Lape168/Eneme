@@ -3,6 +3,7 @@
 #include "../GameSetting/GameSetting.h"
 #include "MapParameter.h"
 #include "Block.h"
+#include "BreakBlock.h"
 
 MapChipData g_MapChip[MAP_CHIP_Y_NUM][MAP_CHIP_X_NUM] = { 0 };
 
@@ -41,6 +42,7 @@ void CreateMap()
 
 			//生成したブロックはMapChipDataで参照しておく
 			g_MapChip[i][j].data = CreateBlock(type, pos);
+			g_MapChip[i][j].Bdata = CreateBreakBlock(type, pos);
 		}
 	}
 }

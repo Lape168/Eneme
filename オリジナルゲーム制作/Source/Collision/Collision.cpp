@@ -136,7 +136,8 @@ void CheckPlayerHitEnemy()
 	float nomalenemyright = nomalenemy->pos.x + nomalenemy->boxCollision.height;
 	float nomalenemytop = nomalenemy->pos.y;
 	float nomalenemybottom = nomalenemy->pos.y + nomalenemy->boxCollision.width;
-	if (!nomalenemy->frozen)
+
+	if (!nomalenemy->frozen) //“G‚ÆG‚ê‚½‚Æ‚«‚ÉƒvƒŒƒCƒ„[‚ªŽ€–S‚·‚éˆ—
 	{
 		if (player->active == true)
 		{
@@ -151,7 +152,7 @@ void CheckPlayerHitEnemy()
 			}
 		}
 	}
-	else
+	else //“G‚ª“€‚Á‚½Žž‚É‘«ê‚É‚·‚éˆ—
 	{
 		if (CheckSquareSquare(player->pos.x, player->pos.y - player->move.y, PLAYER_BOX_COLLISION_WIDTH, PLAYER_BOX_COLLISION_HEIGHT,
 			nomalenemy->pos.x, nomalenemy->pos.y, NOMAL_ENEMY_BOX_COLLISION_WIDTH, NOMAL_ENEMY_BOX_COLLISION_HEIGHT))

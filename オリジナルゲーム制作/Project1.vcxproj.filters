@@ -108,6 +108,9 @@
     <ClCompile Include="Source\Enemy\Sword.cpp">
       <Filter>Source\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Map\BreakBlock.cpp">
+      <Filter>Source\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Map\Block.h">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="Source\Enemy\Nomal.h">
       <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Map\BreakBlock.h">
+      <Filter>Source\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

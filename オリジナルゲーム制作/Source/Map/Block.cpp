@@ -20,7 +20,6 @@ void LoadBlock()
 {
 	g_BlockHandle[NORMAL_BLOCK] = LoadGraph("Data/Map/Normal_Block.png");
 	g_BlockHandle[NET] = LoadGraph("Data/Map/Net.png");
-	g_BlockHandle[BREAK_BLOCK] = LoadGraph("Data/Map/Break_Block.png");
 }
 
 void StartBlock()

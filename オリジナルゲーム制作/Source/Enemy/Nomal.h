@@ -10,7 +10,7 @@
 
 // 矩形判定のサイズ
 constexpr auto NOMAL_ENEMY_BOX_COLLISION_WIDTH = (45);
-constexpr auto NOMAL_ENEMY_BOX_COLLISION_HEIGHT = (45);
+constexpr auto NOMAL_ENEMY_BOX_COLLISION_HEIGHT = (50);
 
 void InitNomal();
 void StartNomal();

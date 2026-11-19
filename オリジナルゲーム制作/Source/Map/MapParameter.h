@@ -24,8 +24,17 @@ struct BlockData
 	VECTOR pos;
 };
 
+struct BreakBlockData
+{
+	bool active;
+	int handle;
+	MapChipType type;
+	VECTOR pos;
+};
+
 struct MapChipData
 {
 	int mapChip;
 	BlockData* data;
+	BreakBlockData* Bdata;
 };

@@ -2,6 +2,7 @@
 #include "MapParameter.h"
 #include "MapChip.h"
 #include "Block.h"
+#include "BreakBlock.h"
 #include "../Player/Player.h"
 #include "../Enemy/EnemyManager.h"
 #include "../Enemy/Nomal.h"
@@ -17,6 +18,7 @@ void LoadMap()
 {
 	LoadMapChipData();
 	LoadBlock();
+	LoadBreakBlock();
 }
 
 void StartMap()
@@ -28,6 +30,8 @@ void DrawMap()
 {
 	// ÉuÉçÉbÉNï`âÊ
 	DrawBlock();
+
+	DrawBreakBlock();
 }
 
 void FinMap()
@@ -67,6 +71,10 @@ void ChceckMapPlayerCollision()
 			case NORMAL_BLOCK:
 				PlayerHitNormalBlockX(mapChipData);
 				break;
+
+			case BREAK_BLOCK:
+				PlayerHitBreakBlockX(mapChipData);
+				break;
 			}
 		}
 	}
@@ -90,6 +98,9 @@ void ChceckMapPlayerCollision()
 			{
 			case NORMAL_BLOCK:
 				PlayerHitNormalBlockY(mapChipData);
+				break;
+			case BREAK_BLOCK:
+				PlayerHitBreakBlockY(mapChipData);
 				break;
 			}
 		}

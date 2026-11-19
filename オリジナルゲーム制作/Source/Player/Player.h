@@ -69,4 +69,7 @@ PlayerData* GetPlayer();
 void PlayerHitNormalBlockX(MapChipData mapChipData);
 void PlayerHitNormalBlockY(MapChipData mapChipData);
 
+void PlayerHitBreakBlockX(MapChipData mapChipData);
+void PlayerHitBreakBlockY(MapChipData mapChipData);
+
 void PlayerHitEnemy();

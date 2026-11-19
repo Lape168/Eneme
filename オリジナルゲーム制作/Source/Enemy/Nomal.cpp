@@ -65,7 +65,9 @@ void StepNomal()
 
 	g_PrevNomalEnemyData = g_NomalEnemyData;
 
+	PlayerData* player = GetPlayer();
 	//ƒvƒŒƒCƒ„[‚Æ“¯‚¶“®‚«‚ð‚³‚¹‚éˆ— + “€‚Á‚Ä‚¢‚½‚ç“®‚«‚ð0‚É
+
 	if (IsInputKey(KEY_LEFT))
 	{
 		if (!g_NomalEnemyData.frozen)
@@ -88,6 +90,7 @@ void StepNomal()
 			g_NomalEnemyData.move.x = 0;
 		}
 	}
+
 	if (IsTriggerKey(KEY_SPACE) && !g_NomalEnemyData.isAir)
 	{
 		if (!g_NomalEnemyData.frozen)
@@ -100,8 +103,6 @@ void StepNomal()
 		}
 	}
 
-
-	PlayerData* player = GetPlayer();
 	float dir = player->pos.x - g_NomalEnemyData.pos.x;
 
 	float min = fabs(dir) < NOMAL_ENEMY_MOVE_SPEED / 5 ?
@@ -167,7 +168,7 @@ void DrawNomal()
 	{
 		if (g_NomalEnemyData.frozen == true) //“€‚Á‚Ä‚¢‚é
 		{
-			DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y - 20, g_EnemyMotion.frozenL, TRUE);
+			DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y - 25, g_EnemyMotion.frozenL, TRUE);
 		}
 		else //“€‚Á‚Ä‚¢‚È‚¢
 		{
@@ -179,7 +180,7 @@ void DrawNomal()
 	{
 		if (g_NomalEnemyData.frozen == true) //“€‚Á‚Ä‚¢‚é
 		{
-			DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y - 20, g_EnemyMotion.frozenR, TRUE);
+			DrawGraph(g_NomalEnemyData.pos.x, g_NomalEnemyData.pos.y - 25, g_EnemyMotion.frozenR, TRUE);
 		}
 		else //“€‚Á‚Ä‚¢‚È‚¢
 		{

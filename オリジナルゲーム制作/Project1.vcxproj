@@ -147,6 +147,7 @@
     <ClCompile Include="Source\Input\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Map\Block.cpp" />
+    <ClCompile Include="Source\Map\BreakBlock.cpp" />
     <ClCompile Include="Source\Map\MapChip.cpp" />
     <ClCompile Include="Source\Map\MapManager.cpp" />
     <ClCompile Include="Source\Player\Player.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Source\GameSetting\GameSetting.h" />
     <ClInclude Include="Source\Input\Input.h" />
     <ClInclude Include="Source\Map\Block.h" />
+    <ClInclude Include="Source\Map\BreakBlock.h" />
     <ClInclude Include="Source\Map\MapChip.h" />
     <ClInclude Include="Source\Map\MapManager.h" />
     <ClInclude Include="Source\Map\MapParameter.h" />

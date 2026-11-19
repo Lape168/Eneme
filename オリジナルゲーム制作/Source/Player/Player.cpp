@@ -87,7 +87,7 @@ void StepPlayer()
 	g_PlayerData.move.y += PLAYER_GRAVITY;
 
 	//これ以上重力を増やさせない
-	if (g_PlayerData.move.y > 30.0f)
+	if (g_PlayerData.move.y > 20.0f)
 	{
 		g_PlayerData.move.y = 0;
 	}
@@ -133,7 +133,7 @@ void StepPlayer()
 			{
 				if (g_PlayerData.isTurn == true)
 				{
-					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX, fireRY - 15, -PLAYER_BULLET_SPEED_X,
+					RequestFireBullet(STRAIGHT_BULLET_TYPE_PLAYER, PLAYER_BULLET_LIFE, fireRX - 20, fireRY - 15, -PLAYER_BULLET_SPEED_X,
 						PLAYER_BULLET_SPEED_Y, bulletbox, BULLET_COLLISION_TAG_PLAYER);
 					g_PlayerData.isFire = true;
 				}
@@ -347,6 +347,79 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 		{
 			// 下に押し出す
 			g_PlayerData.pos.y += (block->pos.y + MAP_CHIP_WIDTH) - y;
+		}
+	}
+}
+
+void PlayerHitBreakBlockX(MapChipData mapChipData)
+{
+	PlayerData player = g_PlayerData;
+	BreakBlockData* Bblock = mapChipData.Bdata;
+	const float POS_OFFSET = PLAYER_MAP_COLLISION_OFFSET;
+	const float SIZE_OFFSET = PLAYER_MAP_COLLISION_OFFSET * 2;
+
+	// ターンフラグは前回のものにしないと反転した分ずれる
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	// Y移動を戻し、横に当たっているかチェック
+	player.pos.x = g_PlayerData.pos.x;
+	player.pos.y = g_PrevPlayerData.pos.y;
+
+	// 当たり判定のボックス計算
+	float x, y, w, h;
+	CalcBoxCollision(player, x, y, w, h);
+
+	if (CheckSquareSquare(x + POS_OFFSET, y + POS_OFFSET, w - SIZE_OFFSET, h - SIZE_OFFSET,
+		Bblock->pos.x, Bblock->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
+	{
+		// 左からあたったか
+		if (player.move.x > 0.0f)
+		{
+			// 左に押し出す
+			g_PlayerData.pos.x -= (x + w) - Bblock->pos.x;
+		}
+		// 右からあたったか
+		else if (player.move.x < 0.0f)
+		{
+			// 右に押し出す
+			g_PlayerData.pos.x += (Bblock->pos.x + MAP_CHIP_WIDTH) - x;
+		}
+	}
+}
+
+void PlayerHitBreakBlockY(MapChipData mapChipData)
+{
+	PlayerData player = g_PlayerData;
+	BreakBlockData* Bblock = mapChipData.Bdata;
+	const float POS_OFFSET = PLAYER_MAP_COLLISION_OFFSET;
+	const float SIZE_OFFSET = PLAYER_MAP_COLLISION_OFFSET * 2;
+
+	// ターンフラグは前回のものにしないと反転した分ずれる
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	// 当たり判定のボックス計算
+	float x, y, w, h;
+	CalcBoxCollision(player, x, y, w, h);
+
+	// まだ当たっているなら縦に当たっている
+	if (CheckSquareSquare(x + POS_OFFSET, y + POS_OFFSET, w - SIZE_OFFSET, h - SIZE_OFFSET,
+		Bblock->pos.x, Bblock->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
+	{
+		// Y移動量を0にする
+		g_PlayerData.move.y = 0.0f;
+
+		// 上からあたったか
+		if (player.move.y > 0.0f)
+		{
+			// 上に押し出す
+			g_PlayerData.pos.y -= (y + h) - Bblock->pos.y;
+			g_PlayerData.isAir = false;
+		}
+		// 下からあたったか
+		else if (player.move.y < 0.0f)
+		{
+			// 下に押し出す
+			g_PlayerData.pos.y += (Bblock->pos.y + MAP_CHIP_WIDTH) - y;
 		}
 	}
 }
