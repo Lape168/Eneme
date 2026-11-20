@@ -15,7 +15,7 @@
 #define NOMAL_ENEMY_JUMP_POWER (10.0f)
 
 // èdóÕ
-#define NOMAL_ENEMY_GRAVITY (0.55f)
+#define NOMAL_ENEMY_GRAVITY (0.50f)
 
 void CalcBoxCollision(NomalEnemyData nomalenemy, float& x, float& y, float& w, float& h);
 
