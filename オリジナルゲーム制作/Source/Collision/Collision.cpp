@@ -3,6 +3,7 @@
 #include "../Player/Player.h"
 #include "../Enemy/EnemyManager.h"
 #include "../Enemy/Nomal.h"
+#include "../Enemy/Sword.h"
 #include "../Bullet/BulletManager.h"
 #include "../Bullet/StraightBullet.h"
 #include "../Map/Block.h"
@@ -122,7 +123,7 @@ bool CheckCircleCircle(float circleA_PosX, float circleA_PosY, float circleA_Rad
 	return false;
 }
 
-void CheckPlayerHitEnemy()
+void CheckPlayerHitNomalEnemy()
 {
 	PlayerData* player = GetPlayer();
 	NomalEnemyData* nomalenemy = GetNomalEnemy();
@@ -147,7 +148,7 @@ void CheckPlayerHitEnemy()
 				// 上下の片がめり込んでいるかチェック
 				if (playerbottom > nomalenemytop && playertop < nomalenemybottom)
 				{
-					PlayerHitEnemy();
+					PlayerHitNomalEnemy();
 				}
 			}
 		}
@@ -191,7 +192,76 @@ void CheckPlayerHitEnemy()
 	}
 }
 
-void CheckPlayerBulletHitEnemy()
+void CheckPlayerHitSwordEnemy()
+{
+	PlayerData* player = GetPlayer();
+	SwordEnemyData* swordenemy = GetSwordEnemy();
+
+	float playerleft = player->pos.x;
+	float playerright = player->pos.x + player->boxCollision.height;
+	float playertop = player->pos.y;
+	float playerbottom = player->pos.y + player->boxCollision.width;
+
+	float swordenemyleft = swordenemy->pos.x;
+	float swordenemyright = swordenemy->pos.x + swordenemy->boxCollision.height;
+	float swordenemytop = swordenemy->pos.y;
+	float swordenemybottom = swordenemy->pos.y + swordenemy->boxCollision.width;
+
+	if (!swordenemy->frozen) //敵と触れたときにプレイヤーが死亡する処理
+	{
+		if (player->active == true)
+		{
+			// 左右の辺がめり込んでいるかチェック
+			if (playerright > swordenemyleft && playerleft < swordenemyright)
+			{
+				// 上下の片がめり込んでいるかチェック
+				if (playerbottom > swordenemytop && playertop < swordenemybottom)
+				{
+					PlayerHitSwordEnemy();
+				}
+			}
+		}
+	}
+	else //敵が凍った時に足場にする処理
+	{
+		if (CheckSquareSquare(player->pos.x, player->pos.y - player->move.y, PLAYER_BOX_COLLISION_WIDTH, PLAYER_BOX_COLLISION_HEIGHT,
+			swordenemy->pos.x, swordenemy->pos.y, SWORD_ENEMY_BOX_COLLISION_WIDTH, SWORD_ENEMY_BOX_COLLISION_HEIGHT))
+		{
+			// 左からあたったか
+			if (player->move.x > 0.0f)
+			{
+				// 左に押し出す
+				player->pos.x -= (player->pos.x + PLAYER_BOX_COLLISION_WIDTH) - swordenemy->pos.x;
+			}
+			// 右からあたったか
+			else if (player->move.x < 0.0f)
+			{
+				// 右に押し出す
+				player->pos.x += (swordenemy->pos.x + SWORD_ENEMY_BOX_COLLISION_WIDTH) - player->pos.x;
+			}
+		}
+
+		if (CheckSquareSquare(player->pos.x, player->pos.y, PLAYER_BOX_COLLISION_WIDTH, PLAYER_BOX_COLLISION_HEIGHT,
+			swordenemy->pos.x, swordenemy->pos.y, SWORD_ENEMY_BOX_COLLISION_WIDTH, SWORD_ENEMY_BOX_COLLISION_HEIGHT))
+		{
+			// 上からあたったか
+			if (player->move.y > 0.0f)
+			{
+				// 上に押し出す
+				player->pos.y -= (player->pos.y + PLAYER_BOX_COLLISION_HEIGHT) - swordenemy->pos.y;
+				player->isAir = false;
+			}
+			// 下からあたったか
+			else if (player->move.y < 0.0f)
+			{
+				// 下に押し出す
+				player->pos.y += (swordenemy->pos.y + SWORD_ENEMY_BOX_COLLISION_HEIGHT) - player->pos.y;
+			}
+		}
+	}
+}
+
+void CheckPlayerBulletHitNomalEnemy()
 {
 	StraightBulletData* bullet = GetStraightBullet();
 	NomalEnemyData* nomalenemy = GetNomalEnemy();
@@ -212,7 +282,34 @@ void CheckPlayerBulletHitEnemy()
 		{
 			if (bulletbottom > nomalenemytop && bullettop < nomalenemybottom)
 			{
-				BulletHitEnemy();
+				BulletHitNomalEnemy();
+			}
+		}
+	}
+}
+
+void CheckPlayerBulletHitSwordEnemy()
+{
+	StraightBulletData* bullet = GetStraightBullet();
+	SwordEnemyData* swordenemy = GetSwordEnemy();
+
+	float bulletleft = bullet->pos.x;
+	float bulletright = bullet->pos.x + bullet->BoxCollison.height;
+	float bullettop = bullet->pos.y;
+	float bulletbottom = bullet->pos.y + bullet->BoxCollison.width;
+
+	float swordenemyleft = swordenemy->pos.x;
+	float swordenemyright = swordenemy->pos.x + swordenemy->boxCollision.height;
+	float swordenemytop = swordenemy->pos.y;
+	float swordenemybottom = swordenemy->pos.y + swordenemy->boxCollision.width;
+
+	if (bullet->active == true)
+	{
+		if (bulletright > swordenemyleft && bulletleft < swordenemyright)
+		{
+			if (bulletbottom > swordenemytop && bullettop < swordenemybottom)
+			{
+				BulletHitSwordEnemy();
 			}
 		}
 	}
@@ -224,8 +321,14 @@ void CheckCollision()
 	ChceckMapPlayerCollision();
 	//通常敵とマップの当たり判定
 	CheckMapNomalEnemyCollision();
-	//敵とプレイヤーの当たり判定
-	CheckPlayerHitEnemy();
-	//プレイヤーの撃った弾と敵の当たり判定
-	CheckPlayerBulletHitEnemy();
+	//ソード敵とマップの当たり判定
+	CheckMapSwordEnemyCollision();
+	//通常敵とプレイヤーの当たり判定
+	CheckPlayerHitNomalEnemy();
+	//ソード敵とプレイヤーの当たり判定
+	CheckPlayerHitSwordEnemy();
+	//プレイヤーの撃った弾と通常敵の当たり判定
+	CheckPlayerBulletHitNomalEnemy();
+	//プレイヤーの撃った弾とソード敵の当たり判定
+	CheckPlayerBulletHitSwordEnemy();
 }

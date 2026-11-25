@@ -26,4 +26,4 @@ NomalEnemyData* GetNomalEnemy();
 void NomalEnemyHitNormalBlockX(MapChipData mapChipData);
 void NomalEnemyHitNormalBlockY(MapChipData mapChipData);
 
-void BulletHitEnemy();
+void BulletHitNomalEnemy();

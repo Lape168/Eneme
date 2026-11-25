@@ -46,6 +46,9 @@
     <Filter Include="Source\Enemy">
       <UniqueIdentifier>{e1dd522f-64a9-4421-a2eb-41661f1a8834}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Weapon">
+      <UniqueIdentifier>{715489c0-f82e-4b11-a714-6832419e4a2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">

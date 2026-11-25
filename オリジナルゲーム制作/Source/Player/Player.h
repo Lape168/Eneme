@@ -72,4 +72,5 @@ void PlayerHitNormalBlockY(MapChipData mapChipData);
 void PlayerHitBreakBlockX(MapChipData mapChipData);
 void PlayerHitBreakBlockY(MapChipData mapChipData);
 
-void PlayerHitEnemy();
+void PlayerHitNomalEnemy();
+void PlayerHitSwordEnemy();

@@ -28,7 +28,7 @@
 #define PLAYER_JUMP_POWER (10.0f)
 
 // d—Í
-#define PLAYER_GRAVITY (0.4f)
+#define PLAYER_GRAVITY (0.45f)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -183,7 +183,7 @@ void DrawPlayer()
 	{
 		if (g_PlayerData.isAir == true) //‹ó’†‚©
 		{
-			if (g_PlayerData.move.y > 0) //ã¸’†
+			if (g_PlayerData.move.y < 0) //ã¸’†
 			{
 				if (g_PlayerData.isAtk == true) //UŒ‚‚µ‚½uŠÔ
 				{
@@ -222,7 +222,7 @@ void DrawPlayer()
 	{
 		if (g_PlayerData.isAir == true) //‹ó’†‚©
 		{
-			if (g_PlayerData.move.y > 0) //ã¸’†
+			if (g_PlayerData.move.y < 0) //ã¸’†
 			{
 				if (g_PlayerData.isAtk == true) //UŒ‚‚µ‚½uŠÔ
 				{
@@ -437,7 +437,12 @@ void PlayerDead()
 	g_PlayerData.active = false;
 }
 
-void PlayerHitEnemy()
+void PlayerHitNomalEnemy()
+{
+	PlayerDead();
+}
+
+void PlayerHitSwordEnemy()
 {
 	PlayerDead();
 }

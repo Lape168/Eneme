@@ -15,7 +15,7 @@
 #define NOMAL_ENEMY_JUMP_POWER (10.0f)
 
 // d—Í
-#define NOMAL_ENEMY_GRAVITY (0.50f)
+#define NOMAL_ENEMY_GRAVITY (0.5f)
 
 void CalcBoxCollision(NomalEnemyData nomalenemy, float& x, float& y, float& w, float& h);
 
@@ -287,7 +287,7 @@ void NomalEnemyHitPlayer()
 	g_NomalEnemyData.active = false;
 }
 
-void BulletHitEnemy()
+void BulletHitNomalEnemy()
 {
 	if (g_NomalEnemyData.frozenTime >= 0)
 	{

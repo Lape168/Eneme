@@ -8,3 +8,4 @@ void FinMap();
 
 void ChceckMapPlayerCollision();
 void CheckMapNomalEnemyCollision();
+void CheckMapSwordEnemyCollision();
