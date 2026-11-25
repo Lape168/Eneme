@@ -12,13 +12,13 @@
 constexpr auto NOMAL_ENEMY_BOX_COLLISION_WIDTH = (45);
 constexpr auto NOMAL_ENEMY_BOX_COLLISION_HEIGHT = (50);
 
-void InitNomal();
-void StartNomal();
-void LoadNomal();
-void StepNomal();
-void UpdateNomal();
-void DrawNomal();
-void FinNomal();
+void InitNomalEnemy();
+void StartNomalEnemy();
+void LoadNomalEnemy();
+void StepNomalEnemy();
+void UpdateNomalEnemy();
+void DrawNomalEnemy();
+void FinNomalEnemy();
 
 NomalEnemyData* GetNomalEnemy();
 

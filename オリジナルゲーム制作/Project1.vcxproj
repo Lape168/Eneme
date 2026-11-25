@@ -143,7 +143,7 @@
     <ClCompile Include="Source\Enemy\Bomb.cpp" />
     <ClCompile Include="Source\Enemy\EnemyManeger.cpp" />
     <ClCompile Include="Source\Enemy\Nomal.cpp" />
-    <ClCompile Include="Source\Enemy\Sword.cpp" />
+    <ClCompile Include="Source\Enemy\SwordEnemy.cpp" />
     <ClCompile Include="Source\Input\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Map\Block.cpp" />
@@ -156,6 +156,7 @@
     <ClCompile Include="Source\Scene\Play\PlayScene.cpp" />
     <ClCompile Include="Source\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\Scene\Title\TitleScene.cpp" />
+    <ClCompile Include="Source\Weapon\Sword.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\BackGround\BackGround.h" />
@@ -168,7 +169,7 @@
     <ClInclude Include="Source\Enemy\Enemy.Parameter.h" />
     <ClInclude Include="Source\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Enemy\Nomal.h" />
-    <ClInclude Include="Source\Enemy\Sword.h" />
+    <ClInclude Include="Source\Enemy\SwordEnemy.h" />
     <ClInclude Include="Source\GameSetting\GameSetting.h" />
     <ClInclude Include="Source\Input\Input.h" />
     <ClInclude Include="Source\Map\Block.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Source\Scene\Play\PlayScene.h" />
     <ClInclude Include="Source\Scene\SceneManager.h" />
     <ClInclude Include="Source\Scene\Title\TitleScene.h" />
+    <ClInclude Include="Source\Weapon\Sword.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

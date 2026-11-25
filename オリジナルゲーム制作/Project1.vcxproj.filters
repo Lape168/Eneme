@@ -108,11 +108,14 @@
     <ClCompile Include="Source\Enemy\Nomal.cpp">
       <Filter>Source\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Enemy\Sword.cpp">
+    <ClCompile Include="Source\Enemy\SwordEnemy.cpp">
       <Filter>Source\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Source\Map\BreakBlock.cpp">
       <Filter>Source\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Weapon\Sword.cpp">
+      <Filter>Source\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,7 +173,7 @@
     <ClInclude Include="Source\Collision\Collision.h">
       <Filter>Source\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Enemy\Sword.h">
+    <ClInclude Include="Source\Enemy\SwordEnemy.h">
       <Filter>Source\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Source\Enemy\Bomb.h">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="Source\Map\BreakBlock.h">
       <Filter>Source\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Weapon\Sword.h">
+      <Filter>Source\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

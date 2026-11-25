@@ -1,50 +1,50 @@
 #include "EnemyManager.h"
 #include "../Enemy/Nomal.h"
-#include "../Enemy/Sword.h"
+#include "../Enemy/SwordEnemy.h"
 
 void InitEnemy()
 {
-	InitNomal();
-	InitSword();
+	InitNomalEnemy();
+	InitSwordEnemy();
 }
 
 void StartEnemy()
 {
-	StartNomal();
-	StartSword();
+	StartNomalEnemy();
+	StartSwordEnemy();
 }
 
 void LoadEnemy()
 {
 	// 各エネミーをロード
-	LoadNomal();
-	LoadSword();
+	LoadNomalEnemy();
+	LoadSwordEnemy();
 }
 
 void StepEnemy()
 {
 	// 各エネミーをステップ
-	StepNomal();
-	StepSword();
+	StepNomalEnemy();
+	StepSwordEnemy();
 }
 
 void UpdateEnemy()
 {
 	// 各エネミーを更新
-	UpdateNomal();
-	UpdateSword();
+	UpdateNomalEnemy();
+	UpdateSwordEnemy();
 }
 
 void DrawEnemy()
 {
 	// 各エネミーを描画
-	DrawNomal();
-	DrawSword();
+	DrawNomalEnemy();
+	DrawSwordEnemy();
 }
 
 void FinEnemy()
 {
 	// 各エネミーを終了
-	FinNomal();
-	FinSword();
+	FinNomalEnemy();
+	FinSwordEnemy();
 }

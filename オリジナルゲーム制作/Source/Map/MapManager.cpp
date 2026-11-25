@@ -6,7 +6,7 @@
 #include "../Player/Player.h"
 #include "../Enemy/EnemyManager.h"
 #include "../Enemy/Nomal.h"
-#include "../Enemy/Sword.h"
+#include "../Enemy/SwordEnemy.h"
 
 // キャラクターの周囲何マスまでチェックするか
 #define CHECK_ROUND_NUM (2)

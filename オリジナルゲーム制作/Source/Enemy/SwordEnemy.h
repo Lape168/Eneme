@@ -12,13 +12,13 @@
 constexpr auto SWORD_ENEMY_BOX_COLLISION_WIDTH = (45);
 constexpr auto SWORD_ENEMY_BOX_COLLISION_HEIGHT = (50);
 
-void InitSword();
-void StartSword();
-void LoadSword();
-void StepSword();
-void UpdateSword();
-void DrawSword();
-void FinSword();
+void InitSwordEnemy();
+void StartSwordEnemy();
+void LoadSwordEnemy();
+void StepSwordEnemy();
+void UpdateSwordEnemy();
+void DrawSwordEnemy();
+void FinSwordEnemy();
 
 SwordEnemyData* GetSwordEnemy();
 

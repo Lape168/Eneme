@@ -3,7 +3,7 @@
 #include "../Player/Player.h"
 #include "../Enemy/EnemyManager.h"
 #include "../Enemy/Nomal.h"
-#include "../Enemy/Sword.h"
+#include "../Enemy/SwordEnemy.h"
 #include "../Bullet/BulletManager.h"
 #include "../Bullet/StraightBullet.h"
 #include "../Map/Block.h"

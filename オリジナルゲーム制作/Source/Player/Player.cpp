@@ -6,7 +6,7 @@
 
 // プレイヤー設定関連
 #define PLAYER_DEFAULT_POS_X		(400.0f)
-#define PLAYER_DEFAULT_POS_Y		(300.0f)
+#define PLAYER_DEFAULT_POS_Y		(700.0f)
 #define PLAYER_MOVE_SPEED			(6.0f)
 #define PLAYER_MAP_COLLISION_OFFSET (0.10f)
 

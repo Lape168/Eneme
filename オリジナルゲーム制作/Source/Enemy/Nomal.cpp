@@ -24,7 +24,7 @@ NomalEnemyData g_PrevNomalEnemyData = { 0 };
 
 EnemyMotion g_EnemyMotion = { 0 };
 
-void InitNomal()
+void InitNomalEnemy()
 {
 	g_NomalEnemyData.pos.x = NOMAL_ENEMY_DEFAULT_POS_X;
 	g_NomalEnemyData.pos.y = NOMAL_ENEMY_DEFAULT_POS_Y;
@@ -33,14 +33,14 @@ void InitNomal()
 	g_NomalEnemyData.frozenTime = 0;
 }
 
-void StartNomal()
+void StartNomalEnemy()
 {
 	// ‹éŒ`”»’èİ’è
 	g_NomalEnemyData.boxCollision.width = NOMAL_ENEMY_BOX_COLLISION_WIDTH;
 	g_NomalEnemyData.boxCollision.height = NOMAL_ENEMY_BOX_COLLISION_HEIGHT;
 }
 
-void LoadNomal()
+void LoadNomalEnemy()
 {
 	//‰æ‘œ
 	g_EnemyMotion.walkR = LoadGraph("Data/Enemy/EnemyR.png");
@@ -49,7 +49,7 @@ void LoadNomal()
 	g_EnemyMotion.frozenL = LoadGraph("Data/Enemy/EnemyFrozenL.png");
 }
 
-void StepNomal()
+void StepNomalEnemy()
 {
 	g_NomalEnemyData.move.x = 0.0f;
 
@@ -141,7 +141,7 @@ void StepNomal()
 	}
 }
 
-void UpdateNomal()
+void UpdateNomalEnemy()
 {
 	// ã¸‚µ‚Ä‚¢‚é‚à‚µ‚­‚Í—‚¿‚Ä‚¢‚éê‡‚Í‹ó’†ƒtƒ‰ƒO‚ğ—§‚Ä‚é
 	if (g_NomalEnemyData.move.y < 0.0f || g_NomalEnemyData.move.y > NOMAL_ENEMY_GRAVITY)
@@ -159,7 +159,7 @@ void UpdateNomal()
 	g_NomalEnemyData.pos.y += g_NomalEnemyData.move.y;
 }
 
-void DrawNomal()
+void DrawNomalEnemy()
 {
 	PlayerData* player = GetPlayer();
 
@@ -189,7 +189,7 @@ void DrawNomal()
 	}
 }
 
-void FinNomal()
+void FinNomalEnemy()
 {
 
 }

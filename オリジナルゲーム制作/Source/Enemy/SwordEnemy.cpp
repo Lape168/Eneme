@@ -1,4 +1,4 @@
-#include "Sword.h"
+#include "SwordEnemy.h"
 #include "../Enemy/Enemy.Parameter.h"
 #include "../Input/Input.h"
 #include "../Player/Player.h"
@@ -24,7 +24,7 @@ SwordEnemyData g_PrevSwordEnemyData = { 0 };
 
 SwordEnemyMotion g_EnemyMotion = { 0 };
 
-void InitSword()
+void InitSwordEnemy()
 {
 	g_SwordEnemyData.pos.x = SWORD_ENEMY_DEFAULT_POS_X;
 	g_SwordEnemyData.pos.y = SWORD_ENEMY_DEFAULT_POS_Y;
@@ -33,14 +33,14 @@ void InitSword()
 	g_SwordEnemyData.frozenTime = 0; 
 }
 
-void StartSword()
+void StartSwordEnemy()
 {
 	// ãÈå`îªíËê›íË
 	g_SwordEnemyData.boxCollision.width = SWORD_ENEMY_BOX_COLLISION_WIDTH;
 	g_SwordEnemyData.boxCollision.height = SWORD_ENEMY_BOX_COLLISION_HEIGHT;
 }
 
-void LoadSword()
+void LoadSwordEnemy()
 {
 	//âÊëú
 	g_EnemyMotion.walkR = LoadGraph("Data/Enemy/EnemyR.png");
@@ -49,7 +49,7 @@ void LoadSword()
 	g_EnemyMotion.frozenL = LoadGraph("Data/Enemy/EnemyFrozenL.png");
 }
 
-void StepSword()
+void StepSwordEnemy()
 {
 	g_SwordEnemyData.move.x = 0.0f;
 
@@ -141,7 +141,7 @@ void StepSword()
 	}
 }
 
-void UpdateSword()
+void UpdateSwordEnemy()
 {
 	// è„è∏ÇµÇƒÇ¢ÇÈÇ‡ÇµÇ≠ÇÕóéÇøÇƒÇ¢ÇÈèÍçáÇÕãÛíÜÉtÉâÉOÇóßÇƒÇÈ
 	if (g_SwordEnemyData.move.y < 0.0f || g_SwordEnemyData.move.y > SWORD_ENEMY_GRAVITY)
@@ -159,7 +159,7 @@ void UpdateSword()
 	g_SwordEnemyData.pos.y += g_SwordEnemyData.move.y;
 }
 
-void DrawSword()
+void DrawSwordEnemy()
 {
 	PlayerData* player = GetPlayer();
 
@@ -189,7 +189,7 @@ void DrawSword()
 	}
 }
 
-void FinSword()
+void FinSwordEnemy()
 {
 
 }
